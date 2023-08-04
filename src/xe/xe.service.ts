@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { CreateXeDto } from './dto/create-xe.dto';
 import { UpdateXeDto } from './dto/update-xe.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class XeService {
+  constructor(private prisma: PrismaService) {}
+  //CRUD
   create(createXeDto: CreateXeDto) {
-    return 'This action adds a new xe';
+    return this.prisma.xe.create({ data: createXeDto });
   }
 
   findAll() {
-    return `This action returns all xe`;
+    return this.prisma.xe.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} xe`;
+  findAllXe7Cho() {
+    return this.prisma.xe.findMany({ where: { loaiXe: '7 Cho' } });
   }
 
-  update(id: number, updateXeDto: UpdateXeDto) {
-    return `This action updates a #${id} xe`;
+  findOne(id: string) {
+    return this.prisma.xe.findUnique({ where: { idXe: id } });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} xe`;
+  findBienSoXe(BienSoXe: string) {
+    return this.prisma.xe.findUnique({ where: { bienSoXe: BienSoXe } });
+  }
+
+  update(id: string, updateXeDto: UpdateXeDto) {
+    return this.prisma.xe.update({
+      where: { idXe: id },
+      data: updateXeDto,
+    });
+  }
+
+  remove(id: string) {
+    return this.prisma.xe.delete({ where: { idXe: id } });
   }
 }

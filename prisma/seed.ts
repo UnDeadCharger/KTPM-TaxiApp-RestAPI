@@ -40,7 +40,7 @@ async function main() {
 
   const xe1 = await prisma.xe.create({
     data: {
-      id: '1',
+      idXe: '1',
       bienSoXe: '12345',
       hieuXe: 'Honda',
       loaiXe: 'Xe Máy',

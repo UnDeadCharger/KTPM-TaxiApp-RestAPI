@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { KhachHangsService } from './khach-hangs.service';
 import { CreateKhachHangDto } from './dto/create-khach-hang.dto';
