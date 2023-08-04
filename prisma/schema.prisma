@@ -19,3 +19,29 @@ model KhachHang {
   isRegistered Boolean @default(false)
   isVIP        Boolean @default(false)
 }
+
+model ChuyenXe {
+  idChuyenXe  String    @id @default(uuid())
+  idTaiXe     String
+  idKhachHang String
+  trangThai   String?
+  diemDon     String
+  diemTra     String
+  giaTien     Float?
+  gioHen      DateTime?
+}
+
+model TaiXe {
+  idTaiXe     String  @id @default(uuid())
+  hoTen       String?
+  soDienThoai String  @unique
+  idXe        String?
+  toaDoGPS    String?
+}
+
+model Xe {
+  id       String @id @default(uuid())
+  bienSoXe String @unique
+  hieuXe   String
+  loaiXe   String
+}
