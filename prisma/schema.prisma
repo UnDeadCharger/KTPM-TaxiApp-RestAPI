@@ -33,15 +33,15 @@ model ChuyenXe {
 
 model TaiXe {
   idTaiXe     String  @id @default(uuid())
-  hoTen       String?
+  hoTen       String
   soDienThoai String  @unique
   idXe        String?
   toaDoGPS    String?
 }
 
 model Xe {
-  id       String @id @default(uuid())
-  bienSoXe String @unique
-  hieuXe   String
-  loaiXe   String
+  id       String  @id @default(uuid())
+  bienSoXe String  @unique
+  hieuXe   String?
+  loaiXe   String?
 }

@@ -1,15 +1,20 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 
 export class CreateChuyenXeDto {
 
     @IsString()
-    @MinLength(1)
+    @IsNotEmpty()
+    @ApiProperty({required: false})
+    idChuyenXe: string;
+
+    @IsString()
+    @IsNotEmpty()
     @ApiProperty()
     idTaiXe: string;
 
     @IsString()
-    @MinLength(1)
+    @IsNotEmpty()
     @ApiProperty()
     idKhachHang: string;
 
@@ -17,27 +22,26 @@ export class CreateChuyenXeDto {
     @IsOptional()
     @MaxLength(50)
     @ApiProperty({required: false})
-    trangThai: string;
+    trangThai?: string;
 
     @IsString()
-    @MinLength(1)
+    @IsNotEmpty()
     @ApiProperty()
     diemDon: string;
 
     @IsString()
-    @MinLength(1)
+    @IsNotEmpty()
     @ApiProperty()
     diemTra: string;
 
     @IsOptional()
     @ApiProperty({required: false})
-    giaTien: number;
+    giaTien?: number;
 
     @IsString()
     @IsOptional()
-    @IsOptional()
     @ApiProperty({required: false})
-    gioHen: Date;
+    gioHen?: Date;
 }
 
 

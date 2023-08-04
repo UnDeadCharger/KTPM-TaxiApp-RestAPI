@@ -8,22 +8,32 @@ export class TaiXeService {
   constructor(private prisma: PrismaService) {}
 
   create(createTaiXeDto: CreateTaiXeDto) {
-    return 'This action adds a new taiXe';
+    return this.prisma.taiXe.create({ 
+      data: createTaiXeDto 
+    });
   }
 
   findAll() {
-    return `This action returns all taiXe`;
+    return this.prisma.taiXe.findMany({
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} taiXe`;
+  async findOne(id: string) {
+    return this.prisma.taiXe.findUnique({
+      where: {
+        idTaiXe: id,
+      }
+    });
   }
 
-  update(id: number, updateTaiXeDto: UpdateTaiXeDto) {
-    return `This action updates a #${id} taiXe`;
+  update(id: string, updateTaiXeDto: UpdateTaiXeDto) {
+    return this.prisma.taiXe.update({
+      where: { idTaiXe: id },
+      data: updateTaiXeDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} taiXe`;
+  remove(id: string) {
+    return this.prisma.taiXe.delete({ where: { idTaiXe: id } });
   }
 }
