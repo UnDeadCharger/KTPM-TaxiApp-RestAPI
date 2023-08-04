@@ -20,6 +20,19 @@ export class KhachHangsController {
   //Doi thanh KhachHangService
   constructor(private KhachHangs: KhachHangsService) {}
 
+  @Post('checkRegistered')
+  //@ApiCreatedResponse({ type: String })
+  checkRegistered(@Body() createKhachHangDto: CreateKhachHangDto) {
+    const { soDienThoai } = createKhachHangDto;
+    return this.KhachHangs.checkRegistered(soDienThoai);
+  }
+
+  //Register account to phone number
+  @Post('registerAccount')
+  @ApiCreatedResponse({ type: KhachHangEntity })
+  registerAccount(@Body() createKhachHangDto: CreateKhachHangDto) {
+    return this.KhachHangs.registerAccount(createKhachHangDto);
+  }
   //Create a Khach Hang Data transfer object
   //Declare a DTO object, to declare the attribute for object
   @Post()

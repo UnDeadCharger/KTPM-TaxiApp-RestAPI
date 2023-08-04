@@ -18,33 +18,40 @@ async function main() {
 
   const chuyenxe1 = await prisma.chuyenXe.create({
     data: {
-      idTaiXe    : '1', 
-      idKhachHang: '2', 
-      trangThai  : 'Chưa Hoàn Thành', 
-      diemDon    : 'A', 
-      diemTra    : 'B', 
-      giaTien    : 100, 
-      gioHen     : new Date(),  
+      idTaiXe: '1',
+      idKhachHang: '2',
+      trangThai: 'Chưa Hoàn Thành',
+      diemDon: 'A',
+      diemTra: 'B',
+      giaTien: 100,
+      gioHen: new Date(),
     },
   });
 
   const taixe1 = await prisma.taiXe.create({
     data: {
-      idTaiXe    : '1',
-      hoTen      : 'Nguyễn Văn A',
+      idTaiXe: '1',
+      hoTen: 'Nguyễn Văn A',
       soDienThoai: '0964978361',
-      idXe       : '1',
-      toaDoGPS   : '50 50',
-    }
+      idXe: '1',
+      toaDoGPS: '50 50',
+    },
   });
 
   const xe1 = await prisma.xe.create({
     data: {
-      id : '1',
+      id: '1',
       bienSoXe: '12345',
       hieuXe: 'Honda',
       loaiXe: 'Xe Máy',
-    }
+    },
+  });
+  const user2 = await prisma.khachHang.upsert({
+    where: { soDienThoai: '09644444' },
+    update: {},
+    create: {
+      soDienThoai: '09644444',
+    },
   });
 }
 

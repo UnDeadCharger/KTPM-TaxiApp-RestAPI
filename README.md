@@ -202,3 +202,18 @@ Build Function in Service
 Call Function in Controller
 QOL:
 APITAGS to controller: naming end point
+
+GET() Cant have a body
+
+##VALIDATION
+###VALIDATION PIPE - NESTJS
+npm install class-validator class-transformer (Typescript decorator based package)
+
+in Main.ts: App use (New Validator sth sth)
+
+in DTO update it with these decorator @isString @isOptional
+
+### TRANSFORM PIPE
+
+These are used to convert parameters into correct type
+@Param('id', ParseIntPipe)
