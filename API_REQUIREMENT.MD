@@ -92,3 +92,63 @@ Technology :
 -gioHen
 
 FIGURE OUT MROE
+
+
+#PA 2
+Part 1: Receive Customer Information (S1)
+
+    Implement a component that receives customer information (phone number, pickup address, vehicle type) from call center staff.
+    If the pickup address is already known (from history), directly proceed to dispatch. Otherwise, pass the information to Part 2.
+    
+    > After answering call, get their phone number, chuyen xe and ask for pick up location or old
+    > Query for Khach Hang, ask if they want to use the same old pick up location, if not Send a message to part 2
+
+    > Convert KhachHang to use Lat and Long, and update their location
+    > An API that create ChuyenXe for Call Center
+
+Part 2: Geolocation for Unidentified Addresses (S2)
+
+    Implement a component that takes addresses needing geolocation from Part 1.
+    Use long-polling or event-driven architecture (e.g., RabbitMQ) to fetch data from a database or queue.
+    Perform geolocation (convert pickup address to GPS coordinates) using tools like Google Maps' Geocoding API.
+    After geolocation, proceed to dispatch.
+
+      > Send a message with the Address of customer to the Converter(This part)
+      > This converter then return the lat and long
+      > Send a mussage to the driver app and updating the relevant Khach Hang address containing the lat and long
+
+Part 3: Ride Status Monitoring (S3)
+
+    Implement a component that receives ride information being processed by the system (sorted by decreasing time).
+    Similar to Part 2, use long-polling or event-driven architecture (e.g., RabbitMQ) to fetch data from a database or queue.
+    After processing, retrieve ride details like request time, assigned driver, and status.
+
+       > Client send a message that request 
+       > Use Rabbit MQ to keep the connection
+
+4. Message Flow and Architecture:
+
+    Choose a topology for the event-driven architecture. Options include mediator or broker. Based on your choice, design a message flow that connects the components (S1, S2, S3).
+
+5. Code Implementation:
+
+    Implement the components using your chosen programming language and integrate them with the message broker.
+    Use appropriate libraries to interact with the message broker and databases.
+    Ensure that the components can publish and subscribe to events/messages for communication.
+
+6. Testing and Validation:
+
+    Test each component's functionality individually and then test the entire system's flow.
+    Verify that data is correctly passed between components and processed as expected.
+
+7. Deadline and Submission:
+
+    Ensure that the entire project is completed by the specified deadline.
+    Prepare documentation, including explanations of the chosen architecture, message flows, and any design decisions.
+    Submit the project on the provided platform (Moodle).
+
+8. Additional Resources:
+
+    Utilize the resources provided in the course materials, such as documentation and tutorials, to guide your implementation.
+
+It's important to note that each part of the application represents a distinct functional module. You'll need to implement each of these modules to create a fully functional ride booking system based on the event-driven architecture. The message broker will serve as the communication backbone between these modules, ensuring efficient and reliable data exchange.
