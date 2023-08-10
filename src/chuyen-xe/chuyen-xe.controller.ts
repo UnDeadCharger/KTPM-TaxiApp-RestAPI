@@ -12,7 +12,7 @@ import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-
 export class ChuyenXeController {
   constructor(private readonly chuyenXeService: ChuyenXeService) {}
 
-  @Post()
+  @Post("/create")
   @ApiCreatedResponse({type: ChuyenXeEntity})
   create(@Body() createChuyenXeDto: CreateChuyenXeDto) {
     return this.chuyenXeService.create(createChuyenXeDto);
