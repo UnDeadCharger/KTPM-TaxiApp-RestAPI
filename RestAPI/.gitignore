@@ -129,19 +129,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variable files
 .env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
-
-#RestAPI NPM
-RestAPI/node_modules/
-RestAPI/jspm_packages/
