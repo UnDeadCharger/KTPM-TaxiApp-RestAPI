@@ -147,3 +147,4 @@ docker-compose.yml
 #RestAPI NPM
 RestAPI/node_modules/
 RestAPI/jspm_packages/
+RestAPI/rabbitmq.env
