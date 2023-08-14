@@ -138,7 +138,7 @@ dist
 # dotenv environment variable files
 .env
 docker-compose.yml
-
+rabbitmq.env
 .env.development.local
 .env.test.local
 .env.production.local
