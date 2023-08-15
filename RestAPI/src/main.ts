@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 import * as dotenv from 'dotenv';
+// Import your JWT secret
 
 async function bootstrap() {
   dotenv.config(); // Load environment variables from .env
@@ -23,6 +24,14 @@ async function bootstrap() {
     .setTitle('Median')
     .setDescription('The Median API')
     .setVersion('0.1')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+      'jwt', // This name should match the security name defined below
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
