@@ -4,8 +4,11 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
+import * as dotenv from 'dotenv';
 
 async function bootstrap() {
+  dotenv.config(); // Load environment variables from .env
+
   const app = await NestFactory.create(AppModule);
   //Intercept package to validate input
   const configService = app.get(ConfigService);

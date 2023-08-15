@@ -7,5 +7,6 @@ import { PrismaModule } from 'src/prisma/prisma.module';
   controllers: [TaiXeController],
   providers: [TaiXeService],
   imports: [PrismaModule],
+  exports: [TaiXeService],
 })
 export class TaiXeModule {}
