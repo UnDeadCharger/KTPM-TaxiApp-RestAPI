@@ -12,8 +12,7 @@
 //   imports: [PrismaModule, KhachHangsModule, ChuyenXeModule, TaiXeModule, XeModule, ConfigModule],
 //   controllers: [AppController],
 //   providers: [AppService],
-  
-  
+
 // })
 // export class AppModule {}
 
@@ -27,6 +26,7 @@ import { TaiXeModule } from './tai-xe/tai-xe.module';
 import { XeModule } from './xe/xe.module';
 import { ConfigModule } from '@nestjs/config';
 import { RabbitMQModule } from './rabbit-mq/rabbit-mq.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -35,8 +35,9 @@ import { RabbitMQModule } from './rabbit-mq/rabbit-mq.module';
     ChuyenXeModule,
     TaiXeModule,
     XeModule,
-    ConfigModule,
     RabbitMQModule, // Include the RabbitMQModule here
+    ConfigModule.forRoot(),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

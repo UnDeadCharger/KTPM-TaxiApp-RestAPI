@@ -47,6 +47,11 @@ export class KhachHangsService {
     return this.prisma.khachHang.create({ data: createKhachHangDto });
   }
 
+  //Find by phone Number
+  findOneByPhoneNum(sdt: string) {
+    return this.prisma.khachHang.findUnique({ where: { soDienThoai: sdt } });
+  }
+
   findAll() {
     return this.prisma.khachHang.findMany();
   }
