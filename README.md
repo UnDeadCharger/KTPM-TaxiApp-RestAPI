@@ -217,3 +217,6 @@ in DTO update it with these decorator @isString @isOptional
 
 These are used to convert parameters into correct type
 @Param('id', ParseIntPipe)
+
+Bloody module need to export their service, in order for other module to use the service
+Make sure your service FIndOne is actualyl correct
