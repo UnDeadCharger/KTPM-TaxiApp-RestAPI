@@ -147,7 +147,8 @@ rabbitmq.env
 #RestAPI NPM
 RestAPI/node_modules/
 RestAPI/jspm_packages/
+RestAPI/rabbitmq.env
 
-#RestAPI NPM
+#triptracker NPM
 trip-tracker/node_modules/
 trip-tracker/jspm_packages/

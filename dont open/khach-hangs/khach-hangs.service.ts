@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { CreateKhachHangDto } from './dto/create-khach-hang.dto';
-import { UpdateKhachHangDto } from './dto/update-khach-hang.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { Injectable } from "@nestjs/common";
+import { CreateKhachHangDto } from "./dto/create-khach-hang.dto";
+import { UpdateKhachHangDto } from "./dto/update-khach-hang.dto";
+import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
 export class KhachHangsService {
@@ -15,19 +15,19 @@ export class KhachHangsService {
     if (!khachHang) {
       return {
         status: 0,
-        message: 'Phone number does not exist.',
+        message: "Phone number does not exist.",
       };
     }
 
     if (khachHang.isRegistered != true) {
       return {
         status: 1,
-        message: 'Phone number is not registered.',
+        message: "Phone number is not registered.",
       };
     } else {
       return {
         status: 2,
-        message: 'Phone number is registered.',
+        message: "Phone number is registered.",
       };
     }
   }

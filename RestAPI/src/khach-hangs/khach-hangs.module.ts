@@ -6,5 +6,6 @@ import { PrismaModule } from 'src/prisma/prisma.module';
   controllers: [KhachHangsController],
   providers: [KhachHangsService],
   imports: [PrismaModule],
+  exports: [KhachHangsService],
 })
 export class KhachHangsModule {}
