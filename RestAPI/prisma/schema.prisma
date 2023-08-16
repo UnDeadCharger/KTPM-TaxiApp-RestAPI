@@ -15,7 +15,8 @@ model KhachHang {
   hoTen        String?
   soDienThoai  String  @unique
   diaChi       String?
-  toaDoGPS     String?
+  toaDoGPSLat  String?
+  toaDoGPSLng  String?
   isRegistered Boolean @default(false)
   isVIP        Boolean @default(false)
 }
