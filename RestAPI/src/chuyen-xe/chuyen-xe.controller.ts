@@ -5,6 +5,8 @@ import { UpdateChuyenXeDto } from './dto/update-chuyen-xe.dto';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { ChuyenXeEntity } from './entities/chuyen-xe.entity';
 import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
+import { ClientProxy } from '@nestjs/microservices';
+// import JwtAuthenticationGuard from '../authentication/jwt-authentication.guard';
 
 @Controller('chuyen-xe')
 @ApiTags('chuyen-xe')
