@@ -138,7 +138,7 @@ dist
 # dotenv environment variable files
 .env
 docker-compose.yml
-
+rabbitmq.env
 .env.development.local
 .env.test.local
 .env.production.local
@@ -148,3 +148,7 @@ docker-compose.yml
 RestAPI/node_modules/
 RestAPI/jspm_packages/
 RestAPI/rabbitmq.env
+
+#triptracker NPM
+trip-tracker/node_modules/
+trip-tracker/jspm_packages/
