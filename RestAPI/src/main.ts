@@ -41,6 +41,7 @@ async function bootstrap() {
   const password = configService.get('RABBITMQ_PASSWORD');
   const host = configService.get('RABBITMQ_HOST');
   const queueName = configService.get('RABBITMQ_QUEUE_NAME');
+  const queueName2 = configService.get('RABBITMQ_QUEUE_NAME2');
 
   const config = new DocumentBuilder()
     .setTitle('Median')
@@ -65,6 +66,17 @@ async function bootstrap() {
     options: {
       urls: [`amqp://${user}:${password}@${host}`],
       queue: queueName,
+      queueOptions: {
+        durable: true,
+      },
+    },
+  });
+
+  await app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.RMQ,
+    options: {
+      urls: [`amqp://${user}:${password}@${host}`],
+      queue: queueName2,
       queueOptions: {
         durable: true,
       },

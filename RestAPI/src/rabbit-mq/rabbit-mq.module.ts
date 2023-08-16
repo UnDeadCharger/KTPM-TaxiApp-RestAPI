@@ -11,7 +11,7 @@ import { RabbitMQService } from './rabbit-mq.service';
           urls: [
             'amqp://admin:admin@localhost:5672',
           ],
-          queue: 'email-subscribers',
+          queue: 'CC-TripTracker-subscribers',
         },
       },
     ]),
