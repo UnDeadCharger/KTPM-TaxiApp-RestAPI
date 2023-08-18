@@ -8,5 +8,6 @@ import { ChuyenXesModule } from './chuyen-xes/chuyen-xes.module';
   imports: [PrismaModule, ChuyenXesModule],
   controllers: [AppController],
   providers: [AppService],
+  exports: [AppService],
 })
 export class AppModule {}

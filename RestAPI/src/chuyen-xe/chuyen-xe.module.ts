@@ -4,10 +4,12 @@ import { ChuyenXeController } from './chuyen-xe.controller';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
+import { RabbitMQModule } from 'src/rabbit-mq/rabbit-mq.module';
+
 
 
 @Module({
-  imports: [PrismaModule, ConfigModule],
+  imports: [PrismaModule, ConfigModule, RabbitMQModule],
   controllers: [ChuyenXeController],
   providers: [ChuyenXeService,
     {

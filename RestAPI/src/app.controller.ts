@@ -22,12 +22,24 @@ export class AppController {
   ) {}
   @Get()
   async getHello() {
-    const pendingOperations = Array.from(new Array(5)).map((_, index) =>
-    this.rabbitMQService.send('rabbit-mq-producer', {
-        message: this.appService.getHello() + index,
-      }),
-    );
-    Promise.all(pendingOperations);
-    return 'Message sent to the queue!';
+    const pendingOperations = Array.from(new Array(5)).map(async (_, index) => {
+      const message = this.appService.getHello() + index;
+      
+      try {
+        // Send the message and await acknowledgment
+        const ackStatus = await this.rabbitMQService.send( 'rabbit-mq-producer',  message );
+        // ackStatus.subscribe();
+        console.log(`Message "${message}" ack status: ${ackStatus}`);
+        return ackStatus
+      } catch (error) {
+        console.error(`Error sending message "${message}":`, error);
+        return null;
+      }
+    });
+  
+    await Promise.all(pendingOperations);
+    
+    return 'Messages sent to the queue!';
   }
+
 }

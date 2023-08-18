@@ -46,11 +46,14 @@ async function bootstrap() {
       queue: 'CC-TripTracker-subscribers',
       noAck: false,
       prefetchCount: 1,
+      queueOptions: {
+        durable: true,
+      },
     },
   });
 
   // Start the NestJS application and the microservice
-  await Promise.all([app.listen(3001), microservice.listen()]);
+  await Promise.all([app.listen(3004), microservice.listen()]);
 
   console.log('Application and microservice are up and running.');
 }
