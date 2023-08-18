@@ -9,8 +9,8 @@ export class ChuyenXesService {
 
   create(createChuyenXesDto: CreateChuyenXesDto) {
     return this.prisma.chuyenXe.create({
-      data: createChuyenXesDto
-    })
+      data: createChuyenXesDto,
+    });
   }
 
   findAll() {

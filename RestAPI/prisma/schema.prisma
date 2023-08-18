@@ -11,19 +11,25 @@ datasource db {
 }
 
 model KhachHang {
-  idKhachHang  String  @id @default(uuid())
-  hoTen        String?
-  soDienThoai  String  @unique
-  diaChi       String?
-  toaDoGPS     String?
-  isRegistered Boolean @default(false)
-  isVIP        Boolean @default(false)
+  idKhachHang    String     @id @default(uuid())
+  hoTen          String?
+  soDienThoai    String     @unique
+  diaChi         String?
+  toaDoGPS       String?
+  isRegistered   Boolean    @default(false)
+  isVIP          Boolean    @default(false)
+  //relation ship
+  takenChuyenXes ChuyenXe[] @relation("KhachHangChuyenXe")
+
+  @@index([soDienThoai])
 }
 
 model ChuyenXe {
-  idChuyenXe  String    @id @default(uuid())
+  idChuyenXe  String     @id @default(uuid())
   idTaiXe     String
+  TaiXe       TaiXe?     @relation("TaiXeChuyenXe", fields: [idTaiXe], references: [idTaiXe])
   idKhachHang String
+  KhachHang   KhachHang? @relation("KhachHangChuyenXe", fields: [idKhachHang], references: [idKhachHang])
   trangThai   String?
   diemDon     String
   diemTra     String
@@ -32,16 +38,23 @@ model ChuyenXe {
 }
 
 model TaiXe {
-  idTaiXe     String  @id @default(uuid())
-  hoTen       String
-  soDienThoai String  @unique
-  idXe        String?
-  toaDoGPS    String?
+  idTaiXe         String     @id @default(uuid())
+  hoTen           String
+  soDienThoai     String     @unique
+  Xe              Xe         @relation(fields: [idXe], references: [idXe])
+  idXe            String     @unique
+  toaDoGPS        String?
+  trangThai       String?
+  drivenChuyenXes ChuyenXe[] @relation("TaiXeChuyenXe")
+
+  @@index([soDienThoai])
 }
 
 model Xe {
-  idXe     String  @id @default(uuid()) // Modify the ID field name
-  bienSoXe String  @unique
-  hieuXe   String?
-  loaiXe   String?
+  idXe         String  @id @default(uuid()) // Modify the ID field name
+  bienSoXe     String  @unique
+  hieuXe       String?
+  loaiXe       String?
+  ownerTX      TaiXe?
+  taiXeIdTaiXe String?
 }

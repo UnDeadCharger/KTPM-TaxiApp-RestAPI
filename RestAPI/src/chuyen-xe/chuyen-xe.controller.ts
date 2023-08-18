@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, UseFilters } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  NotFoundException,
+  UseFilters,
+} from '@nestjs/common';
 import { ChuyenXeService } from './chuyen-xe.service';
 import { CreateChuyenXeDto } from './dto/create-chuyen-xe.dto';
 import { UpdateChuyenXeDto } from './dto/update-chuyen-xe.dto';
@@ -13,62 +23,70 @@ import { RabbitMQService } from 'src/rabbit-mq/rabbit-mq.service';
 @ApiTags('chuyen-xe')
 @UseFilters(PrismaClientExceptionFilter)
 export class ChuyenXeController {
-  constructor(private readonly chuyenXeService: ChuyenXeService, private readonly rabbitmqService: RabbitMQService) {}
+  constructor(
+    private readonly chuyenXeService: ChuyenXeService,
+    private readonly rabbitmqService: RabbitMQService,
+  ) {}
 
   //rabbitmq
   @Post(`/ccAddChuyenXe`)
   async createCC(@Body() createChuyenXeDto: CreateChuyenXeDto) {
     const pendingOperations = Array.from(new Array(1)).map(async (_, index) => {
-      const message = createChuyenXeDto
+      const message = createChuyenXeDto;
       try {
         // Send the message and await acknowledgment
-        const ackStatus = await this.rabbitmqService.send( 'create-new-trip',  message );
+        const ackStatus = await this.rabbitmqService.send(
+          'create-new-trip',
+          message,
+        );
         // ackStatus.subscribe();
         console.log(`Message "${message}" ack status: ${ackStatus}`);
-        return ackStatus
+        return ackStatus;
       } catch (error) {
         console.error(`Error sending message "${message}":`, error);
         return null;
       }
     });
-  
+
     await Promise.all(pendingOperations);
-    
+
     return 'Creation Order sent to the queue!';
   }
 
-  @Post("/create")
-  @ApiCreatedResponse({type: ChuyenXeEntity})
+  @Post('/create')
+  @ApiCreatedResponse({ type: ChuyenXeEntity })
   create(@Body() createChuyenXeDto: CreateChuyenXeDto) {
     return this.chuyenXeService.create(createChuyenXeDto);
   }
 
   @Get()
-  @ApiCreatedResponse({type: ChuyenXeEntity, isArray: true})
+  @ApiCreatedResponse({ type: ChuyenXeEntity, isArray: true })
   findAll() {
     return this.chuyenXeService.findAll();
   }
 
   @Get(':id')
-  @ApiCreatedResponse({type: ChuyenXeEntity})
+  @ApiCreatedResponse({ type: ChuyenXeEntity })
   async findOne(@Param('id') id: string) {
     const chuyenxe = await this.chuyenXeService.findOne(id);
-    
-    if(!chuyenxe){
+
+    if (!chuyenxe) {
       throw new NotFoundException(`Chuyen xe with id: ${id} does not exist`);
-      
     }
-    return chuyenxe
+    return chuyenxe;
   }
 
   @Patch(':id')
-  @ApiCreatedResponse({type: ChuyenXeEntity})
-  update(@Param('id') id: string, @Body() updateChuyenXeDto: UpdateChuyenXeDto) {
+  @ApiCreatedResponse({ type: ChuyenXeEntity })
+  update(
+    @Param('id') id: string,
+    @Body() updateChuyenXeDto: UpdateChuyenXeDto,
+  ) {
     return this.chuyenXeService.update(id, updateChuyenXeDto);
   }
 
   @Delete(':id')
-  @ApiCreatedResponse({type: ChuyenXeEntity})
+  @ApiCreatedResponse({ type: ChuyenXeEntity })
   remove(@Param('id') id: string) {
     return this.chuyenXeService.remove(id);
   }

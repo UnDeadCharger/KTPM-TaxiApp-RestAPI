@@ -47,11 +47,11 @@ export class AppController {
   // @MessagePattern({ cmd: 'add-subscriber' })
   // async addSubscriber(@Payload() subscriber: CreateChuyenXDto, @Ctx() context: RmqContext) {
   //   const newSubscriber = await this.subscribersService.addSubscriber(subscriber);
-   
+
   //   const channel = context.getChannelRef();
   //   const originalMsg = context.getMessage();
   //   channel.ack(originalMsg);
-   
+
   //   return newSubscriber;
   // }
 

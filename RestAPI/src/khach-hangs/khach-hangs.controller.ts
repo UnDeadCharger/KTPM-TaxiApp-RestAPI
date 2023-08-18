@@ -14,12 +14,41 @@ import { UpdateKhachHangDto } from './dto/update-khach-hang.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { KhachHangEntity } from './entities/khach-hang.entity';
+import { ClientProxy } from '@nestjs/microservices';
+import { RabbitMQService } from 'src/rabbit-mq/rabbit-mq.service';
+import { GeocoderDTO } from './dto/geocoder.dto';
 
 @Controller('khach-hangs')
 @ApiTags('khach-hangs')
 export class KhachHangsController {
   //Doi thanh KhachHangService
-  constructor(private KhachHangs: KhachHangsService) {}
+  constructor(
+    private KhachHangs: KhachHangsService,
+    private RabbitMQ: RabbitMQService,
+  ) {}
+
+  //RabbitMQ
+  //rabbitmq
+  @Post(`/ccGeocoder`)
+  async createCC(@Body() GeocoderDto: GeocoderDTO) {
+    const pendingOperations = Array.from(new Array(1)).map(async (_, index) => {
+      const message = GeocoderDto;
+      try {
+        // Send the message and await acknowledgment
+        const ackStatus = await this.RabbitMQ.send('get-geocode', message);
+        // ackStatus.subscribe();
+        console.log(`Message "${message}" ack status: ${ackStatus}`);
+        return ackStatus;
+      } catch (error) {
+        console.error(`Error sending message "${message}":`, error);
+        return null;
+      }
+    });
+
+    await Promise.all(pendingOperations);
+
+    return 'Creation Order sent to the queue!';
+  }
 
   @Post('checkRegistered')
   //@ApiCreatedResponse({ type: String })

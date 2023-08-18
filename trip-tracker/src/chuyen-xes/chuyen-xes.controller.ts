@@ -1,25 +1,40 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ChuyenXesService } from './chuyen-xes.service';
 import { CreateChuyenXesDto } from './dto/create-chuyen-xes.dto';
 import { UpdateChuyenXesDto } from './dto/update-chuyen-xes.dto';
-import { Ctx, MessagePattern, Payload, RmqContext } from '@nestjs/microservices';
+import {
+  Ctx,
+  MessagePattern,
+  Payload,
+  RmqContext,
+} from '@nestjs/microservices';
 // import { AppService } from 'src/app.service';
-
 
 @Controller('chuyen-xes')
 export class ChuyenXesController {
   constructor(private readonly chuyenXesService: ChuyenXesService) {}
   // , private readonly appService: AppService
   @MessagePattern('create-new-trip')
-  public async executeCreateCC(@Payload() data: any, @Ctx() context: RmqContext) {
+  public async executeCreateCC(
+    @Payload() data: any,
+    @Ctx() context: RmqContext,
+  ) {
     const channel = context.getChannelRef();
     const originalMessage = context.getMessage();
     // console.log('Data:', data);
     try {
-      const result = await this.chuyenXesService.create(data)
+      const result = await this.chuyenXesService.create(data);
       console.log('Done Adding ChuyenXe:', result);
-      channel.ack(originalMessage); // Acknowledge after successful processing
-      return originalMessage;
+      channel.ack(result); // Acknowledge after successful processing
+      return result;
     } catch (error) {
       // Handle any errors that occurred during processing
       console.error('Error Creating new trip, with message:', error.message);
@@ -45,7 +60,10 @@ export class ChuyenXesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateChuyenXDto: UpdateChuyenXesDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateChuyenXDto: UpdateChuyenXesDto,
+  ) {
     return this.chuyenXesService.update(+id, updateChuyenXDto);
   }
 

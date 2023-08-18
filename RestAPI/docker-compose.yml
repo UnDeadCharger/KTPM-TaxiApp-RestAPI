@@ -2,8 +2,6 @@
 
 version: '3.8'
 services:
-
-  
   # Docker connection string: postgres://postgres:postgres@localhost:5432/
 
   postgres:
@@ -32,5 +30,3 @@ services:
 
 volumes:
   postgres:
-
-  

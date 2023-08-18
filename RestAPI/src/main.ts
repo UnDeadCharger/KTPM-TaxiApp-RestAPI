@@ -61,6 +61,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   //Microservice
+
   await app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.RMQ,
     options: {
