@@ -18,11 +18,20 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
-  @Post('login')
+  @Post('loginKhachHang')
   @ApiCreatedResponse({ type: SignInKhachHangDto })
-  signIn(@Body() signInDto: SignInKhachHangDto) {
+  signInKhachHang(@Body() signInDto: SignInKhachHangDto) {
     const { soDienThoai } = signInDto;
-    return this.authService.signIn(soDienThoai);
+    return this.authService.signInKhachHang(soDienThoai);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('loginKhachHang')
+  @ApiCreatedResponse({ type: SignInKhachHangDto })
+  signInTaiXe(@Body() signInDto: SignInKhachHangDto) {
+    //! DTO might need to be changed later
+    const { soDienThoai } = signInDto;
+    return this.authService.signInTaiXe(soDienThoai);
   }
 
   @UseGuards(AuthGuard)

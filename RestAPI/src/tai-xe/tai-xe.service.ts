@@ -7,14 +7,23 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class TaiXeService {
   constructor(private prisma: PrismaService) {}
 
+  //Find by phone number
+
   create(createTaiXeDto: CreateTaiXeDto) {
-    return this.prisma.taiXe.create({ 
-      data: createTaiXeDto 
+    return this.prisma.taiXe.create({
+      data: createTaiXeDto,
     });
   }
 
   findAll() {
-    return this.prisma.taiXe.findMany({
+    return this.prisma.taiXe.findMany({});
+  }
+
+  async findOneByPhoneNum(sdt: string) {
+    return this.prisma.taiXe.findUnique({
+      where: {
+        soDienThoai: sdt,
+      },
     });
   }
 
@@ -22,7 +31,7 @@ export class TaiXeService {
     return this.prisma.taiXe.findUnique({
       where: {
         idTaiXe: id,
-      }
+      },
     });
   }
 

@@ -6,7 +6,7 @@ export class AppService {
     return 'Hello World!';
   }
 
-  getGeocoder(address: string) {
+  getGeocode(address: string) {
     return 'Hello World!'; //!soon will be replaced by geocoder
   }
 

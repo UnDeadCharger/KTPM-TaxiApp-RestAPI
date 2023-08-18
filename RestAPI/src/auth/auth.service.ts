@@ -11,8 +11,23 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(soDienThoai: string) {
+  async signInKhachHang(soDienThoai: string) {
     const user = await this.khachHangsService.findOneByPhoneNum(soDienThoai);
+    /*if (user?.password !== pass) {
+      throw new UnauthorizedException();
+    }*/
+    //const { password, ...result } = user;
+    // TODO: Generate a JWT and return it here
+    // instead of the user object
+    //return result;
+    const payload = { sub: user.soDienThoai };
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
+  }
+
+  async signInTaiXe(soDienThoai: string) {
+    const user = await this.taiXesService.findOneByPhoneNum(soDienThoai);
     /*if (user?.password !== pass) {
       throw new UnauthorizedException();
     }*/
