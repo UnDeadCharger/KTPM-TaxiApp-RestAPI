@@ -9,9 +9,6 @@
 ALTER TABLE "TaiXe" ADD COLUMN     "trangThai" TEXT,
 ALTER COLUMN "idXe" SET NOT NULL;
 
--- AlterTable
-ALTER TABLE "Xe" ADD COLUMN     "taiXeIdTaiXe" TEXT;
-
 -- CreateIndex
 CREATE INDEX "KhachHang_soDienThoai_idx" ON "KhachHang"("soDienThoai");
 

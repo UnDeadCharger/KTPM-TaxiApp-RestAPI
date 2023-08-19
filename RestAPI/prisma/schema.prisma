@@ -51,10 +51,9 @@ model TaiXe {
 }
 
 model Xe {
-  idXe         String  @id @default(uuid()) // Modify the ID field name
-  bienSoXe     String  @unique
-  hieuXe       String?
-  loaiXe       String?
-  ownerTX      TaiXe?
-  taiXeIdTaiXe String?
+  idXe     String  @id @default(uuid()) // Modify the ID field name
+  bienSoXe String  @unique
+  hieuXe   String?
+  loaiXe   String?
+  ownerTX  TaiXe?
 }

@@ -8,20 +8,16 @@ import { RabbitMQService } from './rabbit-mq.service';
         name: 'rabbit-mq-module',
         transport: Transport.RMQ,
         options: {
-          urls: [
-            'amqp://admin:admin@localhost:5672',
-          ],
+          urls: ['amqp://admin:admin@localhost:5672'],
           queue: 'CC-TripTracker-subscribers',
         },
       },
     ]),
   ],
   controllers: [],
-  providers: [RabbitMQService,
-  ],
+  providers: [RabbitMQService],
   exports: [RabbitMQService],
 })
 export class RabbitMQModule {}
 
 export { RabbitMQService };
-

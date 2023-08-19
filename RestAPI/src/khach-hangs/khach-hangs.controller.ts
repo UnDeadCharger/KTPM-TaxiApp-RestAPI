@@ -63,6 +63,7 @@ export class KhachHangsController {
   registerAccount(@Body() createKhachHangDto: CreateKhachHangDto) {
     return this.KhachHangs.registerAccount(createKhachHangDto);
   }
+
   //Create a Khach Hang Data transfer object
   //Declare a DTO object, to declare the attribute for object
   @Post()
