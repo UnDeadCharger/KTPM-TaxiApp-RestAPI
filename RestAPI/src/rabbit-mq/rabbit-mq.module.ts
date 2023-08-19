@@ -5,7 +5,15 @@ import { RabbitMQService } from './rabbit-mq.service';
   imports: [
     ClientsModule.register([
       {
-        name: 'rabbit-mq-module',
+        name: 'rabbit-mq-module-gc',
+        transport: Transport.RMQ,
+        options: {
+          urls: ['amqp://admin:admin@localhost:5672'],
+          queue: 'CC-Geocoding-subscribers',
+        },
+      },
+      {
+        name: 'rabbit-mq-module-tt',
         transport: Transport.RMQ,
         options: {
           urls: ['amqp://admin:admin@localhost:5672'],

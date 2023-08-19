@@ -24,7 +24,7 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @MessagePattern('get-geocode')
+  @MessagePattern('geocoder')
   public async executeCreateCC(
     @Payload() data: any,
     @Ctx() context: RmqContext,

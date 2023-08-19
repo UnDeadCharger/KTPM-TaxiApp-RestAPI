@@ -35,7 +35,7 @@ export class ChuyenXeController {
       const message = createChuyenXeDto;
       try {
         // Send the message and await acknowledgment
-        const ackStatus = await this.rabbitmqService.send(
+        const ackStatus = await this.rabbitmqService.sendTT(
           'create-new-trip',
           message,
         );

@@ -35,7 +35,7 @@ export class KhachHangsController {
       const message = GeocoderDto;
       try {
         // Send the message and await acknowledgment
-        const ackStatus = await this.RabbitMQ.send('get-geocode', message);
+        const ackStatus = await this.RabbitMQ.sendGC('geocoder', message);
         // ackStatus.subscribe();
         console.log(`Message "${message}" ack status: ${ackStatus}`);
         return ackStatus;
