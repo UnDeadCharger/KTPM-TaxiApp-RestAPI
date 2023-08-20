@@ -4,15 +4,15 @@ import { IsString } from 'class-validator';
 export class CreateXeDto {
   //API Property
 
-  // @IsString()
+  @IsString()
   @ApiProperty({ required: false })
   bienSoXe: string;
 
-  // @IsString()
+  @IsString()
   @ApiProperty({ required: false })
   hieuXe: string;
 
-  // @IsString()
+  @IsString()
   @ApiProperty({ required: false })
   loaiXe: string;
 }
