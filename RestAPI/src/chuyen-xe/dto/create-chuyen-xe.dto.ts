@@ -3,43 +3,43 @@ import { IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from "class-va
 
 export class CreateChuyenXeDto {
 
-    @IsString()
-    @IsNotEmpty()
+    // @IsString()
+    // @IsNotEmpty()
     @ApiProperty({required: false})
     idChuyenXe: string;
 
-    @IsString()
-    @IsNotEmpty()
+    // @IsString()
+    // @IsNotEmpty()
     @ApiProperty()
     idTaiXe: string;
 
-    @IsString()
-    @IsNotEmpty()
+    // @IsString()
+    // @IsNotEmpty()
     @ApiProperty()
     idKhachHang: string;
 
-    @IsString()
-    @IsOptional()
-    @MaxLength(50)
+    // @IsString()
+    // @IsOptional()
+    // @MaxLength(50)
     @ApiProperty({required: false})
     trangThai?: string;
 
-    @IsString()
-    @IsNotEmpty()
+    // @IsString()
+    // @IsNotEmpty()
     @ApiProperty()
     diemDon: string;
 
-    @IsString()
-    @IsNotEmpty()
+    // @IsString()
+    // @IsNotEmpty()
     @ApiProperty()
     diemTra: string;
 
-    @IsOptional()
+    // @IsOptional()
     @ApiProperty({required: false})
     giaTien?: number;
 
-    @IsString()
-    @IsOptional()
+    // @IsString()
+    // @IsOptional()
     @ApiProperty({required: false})
     gioHen?: Date;
 }

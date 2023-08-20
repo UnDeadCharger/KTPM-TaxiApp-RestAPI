@@ -40,7 +40,7 @@ export class ChuyenXeController {
           message,
         );
         // ackStatus.subscribe();
-        console.log(`Message "${message}" ack status: ${ackStatus}`);
+        // console.log(`Message "${message}" ack status: ${ackStatus}`);
         return ackStatus;
       } catch (error) {
         console.error(`Error sending message "${message}":`, error);
@@ -50,7 +50,7 @@ export class ChuyenXeController {
 
     await Promise.all(pendingOperations);
 
-    return 'Creation Order sent to the queue!';
+    return 'Trip Creation Order sent to the queue!';
   }
 
   @Post('/create')

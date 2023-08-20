@@ -3,31 +3,31 @@ import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class CreateKhachHangDto {
   //API Property
-  @IsString()
-  @IsOptional()
+  // @IsString()
+  // @IsOptional()
   @ApiProperty({ required: false })
   hoTen?: string;
 
-  @IsString()
+  // @IsString()
   soDienThoai: string;
 
-  @IsString()
-  @IsOptional()
+  // @IsString()
+  // @IsOptional()
   @ApiProperty({ required: false })
   diaChi?: string;
 
-  @IsString()
-  @IsOptional() // NEED TO BE CHANGED
+  // @IsString()
+  // @IsOptional() // NEED TO BE CHANGED
   @ApiProperty({ required: false })
   toaDoGPS?: string;
 
-  @IsBoolean()
-  @IsOptional()
+  // @IsBoolean()
+  // @IsOptional()
   @ApiProperty({ required: false })
   isRegistered?: boolean = false;
 
-  @IsBoolean()
-  @IsOptional()
+  // @IsBoolean()
+  // @IsOptional()
   @ApiProperty({ required: false })
   isVIP?: boolean = false;
 }

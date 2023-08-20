@@ -2,29 +2,29 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, isNotEmpty } from 'class-validator';
 
 export class CreateTaiXeDto {
-  @IsString()
-  @IsNotEmpty()
+  // @IsString()
+  // @IsNotEmpty()
   @ApiProperty({ required: false })
   idTaiXe?: string;
 
-  @IsString()
-  @IsNotEmpty()
+  // @IsString()
+  // @IsNotEmpty()
   @ApiProperty()
   hoTen: string;
 
-  @IsString()
-  @IsNotEmpty()
+  // @IsString()
+  // @IsNotEmpty()
   @ApiProperty()
   soDienThoai: string;
 
-  @IsString()
+  // @IsString()
   idXe: string;
 
-  @IsString()
+  // @IsString()
   @ApiProperty({ required: false })
   toaDoGPS?: string;
 
-  @IsString()
+  // @IsString()
   @ApiProperty({ required: false })
   trangThai?: string;
 }

@@ -37,7 +37,7 @@ export class KhachHangsController {
         // Send the message and await acknowledgment
         const ackStatus = await this.RabbitMQ.send('get-geocode', message);
         // ackStatus.subscribe();
-        console.log(`Message "${message}" ack status: ${ackStatus}`);
+        // console.log(`Message "${message}" ack status: ${ackStatus}`);
         return ackStatus;
       } catch (error) {
         console.error(`Error sending message "${message}":`, error);
@@ -47,7 +47,7 @@ export class KhachHangsController {
 
     await Promise.all(pendingOperations);
 
-    return 'Creation Order sent to the queue!';
+    return 'GeoCoder Order sent to the queue!';
   }
 
   @Post('checkRegistered')
