@@ -34,12 +34,12 @@ export class AppController {
     // console.log('Data:', data);
     try {
       const result = await this.appService.getGeocode(data);
-      console.log('Done Adding ChuyenXe:', result);
-      channel.ack(result); // Acknowledge after successful processing
-      return result;
+      console.log('Done Processing GeoCode:', result);
+      channel.ack(originalMessage); // Acknowledge after successful processing
+      return originalMessage;
     } catch (error) {
       // Handle any errors that occurred during processing
-      console.error('Error Creating new trip, with message:', error.message);
+      console.error('Error Processing GeoCode, with message:', error.message);
       // It's a good practice to nack (negative acknowledgment) the message in case of an error
       channel.ack(originalMessage);
       return null;

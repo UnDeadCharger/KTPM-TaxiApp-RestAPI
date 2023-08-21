@@ -3,10 +3,9 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  const user1 = await prisma.khachHang.upsert({
-    where: { soDienThoai: '0964978361' },
-    update: {},
-    create: {
+  const khachhang1 = await prisma.khachHang.create({
+    data: {
+      idKhachHang: '1',
       soDienThoai: '0964978361',
       hoTen: 'Trương Gia Huy',
       diaChi: '536/43 Âu Cơ',
@@ -27,6 +26,7 @@ async function main() {
 
   const taixe1 = await prisma.taiXe.create({
     data: {
+      idTaiXe: '1',
       hoTen: 'Nguyễn Văn A',
       soDienThoai: '0964978361',
       idXe: '1',
@@ -37,7 +37,7 @@ async function main() {
   const chuyenxe1 = await prisma.chuyenXe.create({
     data: {
       idTaiXe: taixe1.idTaiXe,
-      idKhachHang: user1.idKhachHang,
+      idKhachHang: khachhang1.idKhachHang,
       trangThai: 'Chưa Hoàn Thành',
       diemDon: 'A',
       diemTra: 'B',
