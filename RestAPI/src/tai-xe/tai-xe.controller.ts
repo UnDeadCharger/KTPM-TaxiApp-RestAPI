@@ -1,12 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, UseFilters } from '@nestjs/common';
 import { TaiXeService } from './tai-xe.service';
 import { CreateTaiXeDto } from './dto/create-tai-xe.dto';
 import { UpdateTaiXeDto } from './dto/update-tai-xe.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
 
 @Controller('tai-xe')
-
 @ApiTags('tai-xe')
+@UseFilters(PrismaClientExceptionFilter)
 export class TaiXeController {
   constructor(private readonly taiXeService: TaiXeService) {}
 

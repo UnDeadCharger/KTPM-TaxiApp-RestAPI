@@ -6,14 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  UseFilters,
 } from '@nestjs/common';
 import { XeService } from './xe.service';
 import { CreateXeDto } from './dto/create-xe.dto';
 import { UpdateXeDto } from './dto/update-xe.dto';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { XeEntity } from './entities/xe.entity';
+import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
+
 @Controller('xe')
 @ApiTags('xe')
+@UseFilters(PrismaClientExceptionFilter)
 export class XeController {
   constructor(private readonly xeService: XeService) {}
 

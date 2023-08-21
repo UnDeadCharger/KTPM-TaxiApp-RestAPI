@@ -24,6 +24,22 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         });
         break;
 
+      case 'P2003':
+        //todo
+        response.status(HttpStatus.CONFLICT).json({
+          statuscode: HttpStatus.CONFLICT,
+          message,
+        });
+        break;
+
+      case 'P2015':
+        //todo
+        response.status(HttpStatus.CONFLICT).json({
+          statuscode: HttpStatus.CONFLICT,
+          message,
+        });
+        break;
+
       default:
         super.catch(exception, host);
     }
