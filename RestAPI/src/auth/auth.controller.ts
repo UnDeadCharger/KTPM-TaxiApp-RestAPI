@@ -26,7 +26,7 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @Post('loginKhachHang')
+  @Post('loginTaiXe')
   @ApiCreatedResponse({ type: SignInKhachHangDto })
   signInTaiXe(@Body() signInDto: SignInKhachHangDto) {
     //! DTO might need to be changed later

@@ -8,17 +8,20 @@ import {
   Delete,
   ParseIntPipe,
   UseFilters,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { KhachHangsService } from './khach-hangs.service';
 import { CreateKhachHangDto } from './dto/create-khach-hang.dto';
 import { UpdateKhachHangDto } from './dto/update-khach-hang.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { KhachHangEntity } from './entities/khach-hang.entity';
 import { ClientProxy } from '@nestjs/microservices';
 import { RabbitMQService } from 'src/rabbit-mq/rabbit-mq.service';
 import { GeocoderDTO } from './dto/geocoder.dto';
 import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('khach-hangs')
 @ApiTags('khach-hangs')

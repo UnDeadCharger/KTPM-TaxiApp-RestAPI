@@ -5,11 +5,13 @@ import { PrismaModule } from 'src/prisma/prisma.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { RabbitMQModule } from 'src/rabbit-mq/rabbit-mq.module';
+import { DriverGateway, ChuyenXeGateway } from 'src/taxi.gateway';
 
 @Module({
   imports: [PrismaModule, ConfigModule, RabbitMQModule],
   controllers: [ChuyenXeController],
   providers: [
+    TaxiGateway,
     ChuyenXeService,
     {
       provide: 'SUBSCRIBERS_SERVICE',

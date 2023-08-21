@@ -7,17 +7,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateChuyenXeDto {
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ required: false })
-  idChuyenXe: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
-  idTaiXe: string;
-
+export class RequestChuyenXeDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
@@ -42,10 +32,6 @@ export class CreateChuyenXeDto {
   @IsOptional()
   @ApiProperty({ required: false })
   giaTien?: number;
-
-  @IsOptional()
-  @ApiProperty({ required: false })
-  gioHen?: Date;
 }
 
 // model ChuyenXe {

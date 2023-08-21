@@ -6,40 +6,42 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class ChuyenXeService {
   constructor(private prisma: PrismaService) {}
-  
+
+  //RequestChuyenXe
+  //requestCX() {}
+  //UpdateChuyenXe
   create(createChuyenXeDto: CreateChuyenXeDto) {
     return this.prisma.chuyenXe.create({
-      data: createChuyenXeDto
-    })
+      data: createChuyenXeDto,
+    });
   }
 
   findAll() {
-    return this.prisma.chuyenXe.findMany({
-    });
+    return this.prisma.chuyenXe.findMany({});
   }
 
   findOne(id: string) {
     return this.prisma.chuyenXe.findUnique({
-      where: { 
-          idChuyenXe: id
-        } 
+      where: {
+        idChuyenXe: id,
+      },
     });
   }
 
-  update(id: string, updateChuyenXeDto: UpdateChuyenXeDto) {    
+  update(id: string, updateChuyenXeDto: UpdateChuyenXeDto) {
     return this.prisma.chuyenXe.update({
       where: {
-        idChuyenXe: id
+        idChuyenXe: id,
       },
-      data:updateChuyenXeDto
-    })
+      data: updateChuyenXeDto,
+    });
   }
 
   remove(id: string) {
     return this.prisma.chuyenXe.delete({
       where: {
-        idChuyenXe: id
-      }
-    })
+        idChuyenXe: id,
+      },
+    });
   }
 }

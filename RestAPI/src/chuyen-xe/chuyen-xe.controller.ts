@@ -8,15 +8,20 @@ import {
   Delete,
   NotFoundException,
   UseFilters,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { ChuyenXeService } from './chuyen-xe.service';
 import { CreateChuyenXeDto } from './dto/create-chuyen-xe.dto';
 import { UpdateChuyenXeDto } from './dto/update-chuyen-xe.dto';
-import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { ChuyenXeEntity } from './entities/chuyen-xe.entity';
 import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
 import { ClientProxy } from '@nestjs/microservices';
 import { RabbitMQService } from 'src/rabbit-mq/rabbit-mq.service';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { RequestChuyenXeDto } from './dto/request-chuyen-xe.dto';
+import { DriverGateway } from 'src/taxi.gateway';
 // import JwtAuthenticationGuard from '../authentication/jwt-authentication.guard';
 
 @Controller('chuyen-xe')
@@ -26,7 +31,38 @@ export class ChuyenXeController {
   constructor(
     private readonly chuyenXeService: ChuyenXeService,
     private readonly rabbitmqService: RabbitMQService,
+    private readonly DriverGateway: DriverGateway,
   ) {}
+
+  //Điều phối
+  @UseGuards(AuthGuard)
+  @Get('RequestChuyenXe')
+  @ApiBearerAuth('jwt')
+  async requestChuyenXe(
+    @Request() req,
+    requestChuyenXeDto: RequestChuyenXeDto,
+  ) {
+    //Set up a DTO based on create-chuyen-xe
+    const createChuyenXeDto: CreateChuyenXeDto = {
+      idChuyenXe: null,
+      idTaiXe: 'dummy-404860297',
+      idKhachHang: requestChuyenXeDto.idKhachHang,
+      trangThai: 'Đang chờ',
+      diemDon: requestChuyenXeDto.diemDon,
+      diemTra: requestChuyenXeDto.diemTra,
+      giaTien: requestChuyenXeDto.giaTien,
+    };
+    //Create a Temp ChuyenXe
+    const tempChuyenXe = await this.chuyenXeService.create(createChuyenXeDto);
+    //Broadcast CX
+    this.DriverGateway.broadcastToDrivers(tempChuyenXe);
+    //Wait for confirmation
+
+    return tempChuyenXe;
+    //Update Temp CX into proper
+
+    //Report To Client
+  }
 
   //rabbitmq
   @Post(`/ccAddChuyenXe`)
