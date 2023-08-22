@@ -71,4 +71,9 @@ export class ChuyenXesController {
   remove(@Param('id') id: string) {
     return this.chuyenXesService.remove(+id);
   }
+
+  @Get('ChuyenXeDangChoChay')
+  findRideExceptFinishStatus() {
+    return this.chuyenXesService.findRideExceptFinishStatus();
+  }
 }

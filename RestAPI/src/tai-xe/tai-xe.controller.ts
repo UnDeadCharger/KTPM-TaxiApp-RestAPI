@@ -1,14 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  NotFoundException,
-  UseFilters,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, UseFilters } from '@nestjs/common';
 import { TaiXeService } from './tai-xe.service';
 import { CreateTaiXeDto } from './dto/create-tai-xe.dto';
 import { UpdateTaiXeDto } from './dto/update-tai-xe.dto';
@@ -37,8 +27,8 @@ export class TaiXeController {
   async findOne(@Param('id') id: string) {
     const taixe = await this.taiXeService.findOne(id);
 
-    if (!taixe) {
-      throw new NotFoundException(`Could not find taixe with id: ${id}`);
+    if(!taixe){
+      throw new NotFoundException(`Could not find taixe with id: ${id}`)
     }
 
     return taixe;
@@ -50,10 +40,7 @@ export class TaiXeController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    const RemoveTaiXe = await this.XeService.removeByTaiXe(this.taiXeService.findOne(id));
-    await this.taiXeService.remove(id);
-    
-    return RemoveTaiXe
+  remove(@Param('id') id: string) {
+    return this.taiXeService.remove(id);
   }
 }

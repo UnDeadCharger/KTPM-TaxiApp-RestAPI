@@ -28,4 +28,14 @@ export class ChuyenXesService {
   remove(id: number) {
     return `This action removes a #${id} chuyenX`;
   }
+
+  findRideExceptFinishStatus(){
+    return this.prisma.chuyenXe.findMany({
+      where:{
+        NOT:[{
+          trangThai:"HoanThanh"
+        }]
+      }
+    })    
+  }
 }
