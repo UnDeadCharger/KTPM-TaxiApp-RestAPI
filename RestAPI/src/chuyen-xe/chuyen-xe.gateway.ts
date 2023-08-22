@@ -8,7 +8,7 @@ import {
 import { CreateChuyenXeDto } from './dto/create-chuyen-xe.dto';
 import { ChuyenXeService } from './chuyen-xe.service';
 
-@WebSocketGateway(82, { namespace: 'ChuyenXe' })
+@WebSocketGateway()
 export class ChuyenXeGateway {
   constructor(private readonly chuyenXeService: ChuyenXeService) {}
   //This get a message from Driver and broadcast it to Database to update ChuyenXe

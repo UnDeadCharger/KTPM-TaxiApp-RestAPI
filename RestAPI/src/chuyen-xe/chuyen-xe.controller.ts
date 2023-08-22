@@ -36,15 +36,15 @@ export class ChuyenXeController {
 
   //Điều phối
   @UseGuards(AuthGuard)
-  @Get('RequestChuyenXe')
+  @Post('RequestChuyenXe')
   @ApiBearerAuth('jwt')
   async requestChuyenXe(
-    @Request() req,
+    @Body() 
     requestChuyenXeDto: RequestChuyenXeDto,
   ) {
-    //Set up a DTO based on create-chuyen-xe
+    //Set up a DTO based on create-chuyen-xe 
     const createChuyenXeDto: CreateChuyenXeDto = {
-      idChuyenXe: null,
+      idChuyenXe: undefined,
       idTaiXe: 'dummy-404860297',
       idKhachHang: requestChuyenXeDto.idKhachHang,
       trangThai: 'Đang chờ',
