@@ -7,5 +7,6 @@ import { PrismaModule } from 'src/prisma/prisma.module';
   controllers: [XeController],
   providers: [XeService],
   imports: [PrismaModule],
+  exports:[XeService],
 })
 export class XeModule {}

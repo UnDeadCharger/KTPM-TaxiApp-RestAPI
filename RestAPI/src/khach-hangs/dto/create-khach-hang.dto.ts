@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+ import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class CreateKhachHangDto {
@@ -9,6 +9,7 @@ export class CreateKhachHangDto {
   hoTen?: string;
 
   @IsString()
+  @ApiProperty({ required: false })
   soDienThoai: string;
 
   @IsString()

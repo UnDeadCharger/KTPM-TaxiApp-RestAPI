@@ -42,4 +42,12 @@ export class ChuyenXeService {
       }
     })
   }
+
+  removeByKhachHang(idKH: string){
+    return this.prisma.chuyenXe.deleteMany({
+      where:{
+        idKhachHang:idKH
+      }
+    })
+  }
 }

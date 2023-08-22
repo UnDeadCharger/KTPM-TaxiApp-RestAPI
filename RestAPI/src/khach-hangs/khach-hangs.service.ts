@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateKhachHangDto } from './dto/create-khach-hang.dto';
 import { UpdateKhachHangDto } from './dto/update-khach-hang.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { UpdateTaiXeDto } from 'src/tai-xe/dto/update-tai-xe.dto';
 
 @Injectable()
 export class KhachHangsService {
@@ -68,6 +69,13 @@ export class KhachHangsService {
     return this.prisma.khachHang.update({
       where: { idKhachHang: id },
       data: updateKhachHangDto,
+    });
+  }
+
+  updateToaDo(sdt: string, updateToaDoDto: UpdateTaiXeDto){
+    return this.prisma.khachHang.update({
+      where:{soDienThoai:sdt},
+      data: updateToaDoDto,
     });
   }
 

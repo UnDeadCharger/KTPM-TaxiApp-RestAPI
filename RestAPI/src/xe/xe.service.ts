@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateXeDto } from './dto/create-xe.dto';
 import { UpdateXeDto } from './dto/update-xe.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { TaiXe } from '@prisma/client';
 
 @Injectable()
 export class XeService {
@@ -37,4 +38,9 @@ export class XeService {
   remove(id: string) {
     return this.prisma.xe.delete({ where: { idXe: id } });
   }
+
+  removeByTaiXe(idTXe: TaiXe){
+    return this.prisma.xe.deleteMany({where:{ownerTX: idTXe}})
+  }
+
 }

@@ -19,6 +19,10 @@ import { ClientProxy } from '@nestjs/microservices';
 import { RabbitMQService } from 'src/rabbit-mq/rabbit-mq.service';
 import { GeocoderDTO } from './dto/geocoder.dto';
 import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
+import {  RegisterAccountDto } from './dto/register-khach-hang.dto';
+import { UpdateToaDoDto } from './dto/update-toa-do.dto';
+import { ChuyenXeController } from 'src/chuyen-xe/chuyen-xe.controller';
+import { ChuyenXeService } from 'src/chuyen-xe/chuyen-xe.service';
 
 @Controller('khach-hangs')
 @ApiTags('khach-hangs')
@@ -28,6 +32,7 @@ export class KhachHangsController {
   constructor(
     private KhachHangs: KhachHangsService,
     private RabbitMQ: RabbitMQService,
+    private ChuyenXe: ChuyenXeService,
   ) {}
 
   //RabbitMQ
@@ -63,9 +68,20 @@ export class KhachHangsController {
   //Register account to phone number
   @Post('registerAccount')
   @ApiCreatedResponse({ type: KhachHangEntity })
-  registerAccount(@Body() createKhachHangDto: CreateKhachHangDto) {
-    return this.KhachHangs.registerAccount(createKhachHangDto);
+  registerAccount(@Body() registerAccountDto: RegisterAccountDto) {
+    return this.KhachHangs.registerAccount(registerAccountDto);
   }
+
+//Update Toa Do
+
+@Patch('updateToaDo')
+@ApiCreatedResponse({type: KhachHangEntity})
+updateToaDo(
+  @Body() updateToaDoDto: UpdateToaDoDto,
+){
+  const {sdt, toaDoGPS} = updateToaDoDto
+  return this.KhachHangs.updateToaDo(sdt, {toaDoGPS: toaDoGPS});
+}
 
   //Create a Khach Hang Data transfer object
   //Declare a DTO object, to declare the attribute for object
@@ -105,7 +121,10 @@ export class KhachHangsController {
 
   @Delete(':id')
   @ApiCreatedResponse({ type: KhachHangEntity })
-  remove(@Param('id') id: string) {
-    return this.KhachHangs.remove(id);
+  async remove(@Param('id') id: string) {
+    const ChuyenXe = await this.ChuyenXe.removeByKhachHang(id);
+    await this.KhachHangs.remove(id);
+    return ChuyenXe;
   }
+
 }

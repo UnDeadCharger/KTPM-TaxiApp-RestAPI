@@ -8,6 +8,7 @@ import { RabbitMQModule } from 'src/rabbit-mq/rabbit-mq.module';
 
 @Module({
   imports: [PrismaModule, ConfigModule, RabbitMQModule],
+  exports:[ChuyenXeService],
   controllers: [ChuyenXeController],
   providers: [
     ChuyenXeService,

@@ -5,6 +5,7 @@ import { PrismaModule } from 'src/prisma/prisma.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { RabbitMQModule } from 'src/rabbit-mq/rabbit-mq.module';
+import { ChuyenXeModule } from 'src/chuyen-xe/chuyen-xe.module';
 @Module({
   controllers: [KhachHangsController],
   providers: [
@@ -31,7 +32,7 @@ import { RabbitMQModule } from 'src/rabbit-mq/rabbit-mq.module';
       inject: [ConfigService],
     },
   ],
-  imports: [PrismaModule, ConfigModule, RabbitMQModule],
+  imports: [PrismaModule, ConfigModule, RabbitMQModule, ChuyenXeModule],
   exports: [KhachHangsService],
 })
 export class KhachHangsModule {}

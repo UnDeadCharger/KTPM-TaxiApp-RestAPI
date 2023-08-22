@@ -4,12 +4,14 @@ import { CreateTaiXeDto } from './dto/create-tai-xe.dto';
 import { UpdateTaiXeDto } from './dto/update-tai-xe.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
+import { XeService } from 'src/xe/xe.service';
 
 @Controller('tai-xe')
 @ApiTags('tai-xe')
 @UseFilters(PrismaClientExceptionFilter)
 export class TaiXeController {
-  constructor(private readonly taiXeService: TaiXeService) {}
+  constructor(private readonly taiXeService: TaiXeService,
+    private readonly XeService: XeService) {}
 
   @Post()
   create(@Body() createTaiXeDto: CreateTaiXeDto) {
@@ -38,7 +40,10 @@ export class TaiXeController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.taiXeService.remove(id);
+  async remove(@Param('id') id: string) {
+    const RemoveTaiXe = await this.XeService.removeByTaiXe(this.taiXeService.findOne(id));
+    await this.taiXeService.remove(id);
+    
+    return RemoveTaiXe
   }
 }
