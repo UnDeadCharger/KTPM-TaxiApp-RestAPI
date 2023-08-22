@@ -34,4 +34,10 @@ export class ChuyenXeGateway {
       );
     }
   }
+
+  //Reject
+  async stopRequestChuyenXe(@MessageBody() tripInfo: CreateChuyenXeDto): void {
+    //allow access to the client
+    this.server.emit('CloseItOff', tripInfo); //payload is the ChuyenXe
+  }
 }
