@@ -83,7 +83,7 @@ updateToaDo(
   @Body() updateToaDoDto: UpdateToaDoDto,
 ){
   const {sdt, toaDoGPS} = updateToaDoDto
-  return this.KhachHangs.updateToaDo(sdt, {toaDoGPS: toaDoGPS});
+  return this.KhachHangs.updateToaDo(sdt, updateToaDoDto);
 }
 
   //Create a Khach Hang Data transfer object

@@ -2,9 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, U
 import { TaiXeService } from './tai-xe.service';
 import { CreateTaiXeDto } from './dto/create-tai-xe.dto';
 import { UpdateTaiXeDto } from './dto/update-tai-xe.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponseProperty, ApiTags } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
 import { XeService } from 'src/xe/xe.service';
+import { TaiXeEntity } from './entities/tai-xe.entity';
+import { UpdateToaDoDto } from './dto/update-toa-do.dto';
 
 @Controller('tai-xe')
 @ApiTags('tai-xe')
@@ -34,6 +36,16 @@ export class TaiXeController {
     return taixe;
   }
 
+  @Patch('updateToaDo')
+  @ApiResponseProperty({type: TaiXeEntity})
+  updateToaDo(
+  @Body() updateToaDoDto: UpdateToaDoDto,
+  ){
+  const {sdt, toaDoGPS} = updateToaDoDto
+  return this.taiXeService.updateToaDo(sdt, {toaDoGPS: toaDoGPS});
+  }
+
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTaiXeDto: UpdateTaiXeDto) {
     return this.taiXeService.update(id, updateTaiXeDto);
@@ -43,4 +55,5 @@ export class TaiXeController {
   remove(@Param('id') id: string) {
     return this.taiXeService.remove(id);
   }
+
 }

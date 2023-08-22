@@ -13,12 +13,14 @@ import { AuthService } from './auth.service';
 import { ApiBearerAuth, ApiCreatedResponse } from '@nestjs/swagger';
 import { SignInKhachHangDto } from './dto/signInKhachHang.dto';
 import { KhachHangsService } from 'src/khach-hangs/khach-hangs.service';
+import { TaiXeService } from 'src/tai-xe/tai-xe.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
     private khachHangService: KhachHangsService,
+    private TaiXeService: TaiXeService,
   ) {}
 
   @HttpCode(HttpStatus.OK)
@@ -39,10 +41,18 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('profile')
+  @Get('profileKhachHang')
   @ApiBearerAuth('jwt')
-  getProfile(@Request() req) {
+  getProfileKH(@Request() req) {
     console.log(req)
     return this.khachHangService.findOneByPhoneNum(req.user.sub);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('profileTaiXe')
+  @ApiBearerAuth('jwt')
+  getProfileTX(@Request() req) {
+    console.log(req)
+    return this.TaiXeService.findOneByPhoneNum(req.user.sub);
   }
 }

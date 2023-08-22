@@ -3,6 +3,7 @@ import { CreateKhachHangDto } from './dto/create-khach-hang.dto';
 import { UpdateKhachHangDto } from './dto/update-khach-hang.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateTaiXeDto } from 'src/tai-xe/dto/update-tai-xe.dto';
+import { UpdateToaDoDto } from './dto/update-toa-do.dto';
 
 @Injectable()
 export class KhachHangsService {
@@ -72,7 +73,7 @@ export class KhachHangsService {
     });
   }
 
-  updateToaDo(sdt: string, updateToaDoDto: UpdateTaiXeDto){
+  updateToaDo(sdt: string, updateToaDoDto: UpdateToaDoDto){
     return this.prisma.khachHang.update({
       where:{soDienThoai:sdt},
       data: updateToaDoDto,
