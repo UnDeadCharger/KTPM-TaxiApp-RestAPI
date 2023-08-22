@@ -1,4 +1,5 @@
 import {
+  ConnectedSocket,
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
@@ -6,7 +7,7 @@ import {
 } from '@nestjs/websockets';
 import { CreateChuyenXeDto } from './chuyen-xe/dto/create-chuyen-xe.dto';
 
-@WebSocketGateway(80, { namespace: 'customer' })
+@WebSocketGateway()
 export class CustomerGateway {
   //This get a message from Custoemr and broadcast it to all Driver
   @WebSocketServer() server; //allow access to the server
@@ -18,14 +19,19 @@ export class CustomerGateway {
   }
 }
 
-@WebSocketGateway(81, { namespace: 'driver' })
+@WebSocketGateway()
 export class DriverGateway {
   //This get a message from Driver and broadcast it to all Driver
   @WebSocketServer() server; //allow access to the server
 
-  //@SubscribeMessage('lookingForCustomer')
+  @SubscribeMessage('lookingForCustomer')
+  handleMessage(@ConnectedSocket() client: any, @MessageBody() payload: any): void {
+    console.log(payload)
+    client.emit('lookingForCustomer' ,"Sub To Socket Successfully")
+  }
+
   broadcastToDrivers(@MessageBody() tripInfo: CreateChuyenXeDto): void {
     //allow access to the client
-    this.server.emit('availableCustomer', tripInfo); //payload is the ChuyenXe
+    this.server.emit('lookingForCustomer', tripInfo); //payload is the ChuyenXe
   }
 }
