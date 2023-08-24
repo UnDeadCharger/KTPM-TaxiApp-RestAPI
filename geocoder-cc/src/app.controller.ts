@@ -33,8 +33,8 @@ export class AppController {
     const originalMessage = context.getMessage();
     // console.log('Data:', data);
     try {
-      const result = await this.appService.getGeocode(data);
-      console.log('Done Processing GeoCode:', result);
+      const result = await this.appService.convertLocation(data);
+      console.log('Processing GeoCode:', result);
       channel.ack(originalMessage); // Acknowledge after successful processing
       return originalMessage;
     } catch (error) {
