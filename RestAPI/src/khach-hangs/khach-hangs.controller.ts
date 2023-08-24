@@ -22,7 +22,7 @@ import { RabbitMQService } from 'src/rabbit-mq/rabbit-mq.service';
 import { GeocoderDTO } from './dto/geocoder.dto';
 import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
 import { AuthGuard } from 'src/auth/auth.guard';
-import {  RegisterAccountDto } from './dto/register-khach-hang.dto';
+import { RegisterAccountDto } from './dto/register-khach-hang.dto';
 import { UpdateToaDoDto } from './dto/update-toa-do.dto';
 import { ChuyenXeController } from 'src/chuyen-xe/chuyen-xe.controller';
 import { ChuyenXeService } from 'src/chuyen-xe/chuyen-xe.service';
@@ -75,16 +75,14 @@ export class KhachHangsController {
     return this.KhachHangs.registerAccount(registerAccountDto);
   }
 
-//Update Toa Do
+  //Update Toa Do
 
-@Patch('updateToaDo')
-@ApiCreatedResponse({type: KhachHangEntity})
-updateToaDo(
-  @Body() updateToaDoDto: UpdateToaDoDto,
-){
-  const {sdt, toaDoGPS} = updateToaDoDto
-  return this.KhachHangs.updateToaDo(sdt, updateToaDoDto);
-}
+  @Patch('updateToaDo')
+  @ApiCreatedResponse({ type: KhachHangEntity })
+  updateToaDo(@Body() updateToaDoDto: UpdateToaDoDto) {
+    const { sdt, toaDoGPS } = updateToaDoDto;
+    return this.KhachHangs.updateToaDo(sdt, updateToaDoDto);
+  }
 
   //Create a Khach Hang Data transfer object
   //Declare a DTO object, to declare the attribute for object
@@ -129,5 +127,4 @@ updateToaDo(
     await this.KhachHangs.remove(id);
     return ChuyenXe;
   }
-
 }

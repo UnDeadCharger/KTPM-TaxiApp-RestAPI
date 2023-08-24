@@ -39,10 +39,10 @@ export class ChuyenXeController {
   @Post('RequestChuyenXe')
   @ApiBearerAuth('jwt')
   async requestChuyenXe(
-    @Body() 
+    @Body()
     requestChuyenXeDto: RequestChuyenXeDto,
   ) {
-    //Set up a DTO based on create-chuyen-xe 
+    //Set up a DTO based on create-chuyen-xe
     const createChuyenXeDto: CreateChuyenXeDto = {
       idChuyenXe: undefined,
       idTaiXe: 'dummy-404860297',
@@ -59,9 +59,6 @@ export class ChuyenXeController {
     //Wait for confirmation
 
     return tempChuyenXe;
-    //Update Temp CX into proper
-
-    //Report To Client
   }
 
   //rabbitmq

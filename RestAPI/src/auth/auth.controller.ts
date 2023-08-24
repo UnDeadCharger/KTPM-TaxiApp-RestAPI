@@ -6,16 +6,20 @@ import {
   HttpStatus,
   Post,
   Request,
+  UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { ApiBearerAuth, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { SignInKhachHangDto } from './dto/signInKhachHang.dto';
 import { KhachHangsService } from 'src/khach-hangs/khach-hangs.service';
 import { TaiXeService } from 'src/tai-xe/tai-xe.service';
+import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
 
 @Controller('auth')
+@ApiTags('auth')
+@UseFilters(PrismaClientExceptionFilter)
 export class AuthController {
   constructor(
     private authService: AuthService,
@@ -44,7 +48,7 @@ export class AuthController {
   @Get('profileKhachHang')
   @ApiBearerAuth('jwt')
   getProfileKH(@Request() req) {
-    console.log(req)
+    console.log(req);
     return this.khachHangService.findOneByPhoneNum(req.user.sub);
   }
 
@@ -52,7 +56,7 @@ export class AuthController {
   @Get('profileTaiXe')
   @ApiBearerAuth('jwt')
   getProfileTX(@Request() req) {
-    console.log(req)
+    console.log(req);
     return this.TaiXeService.findOneByPhoneNum(req.user.sub);
   }
 }

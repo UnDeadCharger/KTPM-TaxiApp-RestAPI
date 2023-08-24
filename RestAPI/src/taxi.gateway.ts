@@ -26,14 +26,34 @@ export class DriverGateway {
   //This get a message from Driver and broadcast it to all Driver
   @WebSocketServer() server; //allow access to the server
 
+  //Kick everyone out of room
+  @SubscribeMessage('stopDriverRequest')
+  async handleRejectingRequest(
+    @ConnectedSocket() client: any,
+    @MessageBody() payload: any,
+  ): Promise<void> {
+    //Client Press Button to stop, emit request to force everyone in the chuyến xe room to leave
+    //remove all sockets
+    //Xóa chuyến xe temp
+    this.server.in(payload.idChuyenXe).disconnectSockets();
+    await this.chuyenXeService.remove(payload.idChuyenXe);
+    this.server.emit('stopDriverRequest', payload); // Client side if id match then remove it
+    //Stop emitting that damm looking for driver request in customer side
+  }
+
   @SubscribeMessage('lookingForCustomer')
-  handleMessage(@ConnectedSocket() client: any, @MessageBody() payload: any): void {
-    console.log(client.id, payload)
+  handleMessage(
+    @ConnectedSocket() client: any,
+    @MessageBody() payload: any,
+  ): void {
+    console.log(client.id, payload);
     // var time = 1;
-    this.server.to(client.id).emit('lookingForCustomer' ,`Sub To Socket Successfully`)
-    // setInterval(() => { 
+    this.server
+      .to(client.id)
+      .emit('lookingForCustomer', `Sub To Socket Successfully`);
+    // setInterval(() => {
     //   console.log(this.server.eio.clientsCount)
-    //   time = time + 1; 
+    //   time = time + 1;
     // }, 1000);
   }
 
@@ -44,9 +64,9 @@ export class DriverGateway {
     @ConnectedSocket() client: any,
     @MessageBody() tripInfo: CreateChuyenXeDto,
   ): Promise<void> {
-    console.log(tripInfo)
+    console.log(tripInfo);
     try {
-      console.log("Update")
+      console.log('Update');
       const realTrip = await this.chuyenXeService.update(
         tripInfo.idChuyenXe,
         tripInfo,
@@ -54,7 +74,7 @@ export class DriverGateway {
       // Send a success response back to the client
       client.send(JSON.stringify({ status: 'success', realTrip }));
     } catch (error) {
-      console.log(error)
+      console.log(error);
       // Handle the error
       // Send an error response back to the client
       client.send(
@@ -63,8 +83,8 @@ export class DriverGateway {
     }
   }
 
-  //Disconnect
-
+  //resend
+  @SubscribeMessage('resendRequest')
   broadcastToDrivers(@MessageBody() tripInfo: CreateChuyenXeDto): void {
     //allow access to the client
     this.server.emit('availableCustomer', tripInfo); //payload is the ChuyenXe
