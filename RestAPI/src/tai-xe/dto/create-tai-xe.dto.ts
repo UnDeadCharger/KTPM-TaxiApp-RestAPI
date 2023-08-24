@@ -2,8 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, isNotEmpty } from 'class-validator';
 
 export class CreateTaiXeDto {
-  @IsString()
-  @IsNotEmpty()
   @ApiProperty({ required: false })
   idTaiXe?: string;
 
@@ -18,6 +16,7 @@ export class CreateTaiXeDto {
   soDienThoai: string;
 
   @IsString()
+  @ApiProperty()
   idXe: string;
 
   @IsString()

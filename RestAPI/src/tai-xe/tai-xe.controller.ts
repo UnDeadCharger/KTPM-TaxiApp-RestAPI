@@ -52,8 +52,11 @@ export class TaiXeController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.taiXeService.remove(id);
+  async remove(@Param('id') id: string) {
+    const RemoveTaiXe = await this.XeService.removeByTaiXe(await this.taiXeService.findOne(id));
+    await this.taiXeService.remove(id);
+    
+    return RemoveTaiXe
   }
 
 }
