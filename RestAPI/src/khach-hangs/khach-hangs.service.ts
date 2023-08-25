@@ -73,6 +73,13 @@ export class KhachHangsService {
     });
   }
 
+  updateBySDT(soDienThoai: string, updateKhachHangDto: UpdateKhachHangDto) {
+    return this.prisma.khachHang.update({
+      where: { soDienThoai: soDienThoai },
+      data: updateKhachHangDto,
+    });
+  }
+
   updateToaDo(sdt: string, updateToaDoDto: UpdateToaDoDto){
     return this.prisma.khachHang.update({
       where:{soDienThoai:sdt},

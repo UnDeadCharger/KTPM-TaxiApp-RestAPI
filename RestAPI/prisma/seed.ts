@@ -12,6 +12,7 @@ async function main() {
       toaDoGPS: '50 50',
       isRegistered: true,
       isVIP: true,
+      refreshToken: '',
     },
   });
 
@@ -31,6 +32,7 @@ async function main() {
       soDienThoai: '0964978361',
       idXe: '1',
       toaDoGPS: '50 50',
+      refreshToken: '',
     },
   });
 
@@ -63,6 +65,7 @@ async function main() {
       soDienThoai: '404860297',
       idXe: 'dummy-400-vehicle',
       toaDoGPS: '50/50',
+      refreshToken: '',
     },
   });
 }

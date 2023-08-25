@@ -26,6 +26,7 @@ import { RegisterAccountDto } from './dto/register-khach-hang.dto';
 import { UpdateToaDoDto } from './dto/update-toa-do.dto';
 import { ChuyenXeController } from 'src/chuyen-xe/chuyen-xe.controller';
 import { ChuyenXeService } from 'src/chuyen-xe/chuyen-xe.service';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @Controller('khach-hangs')
 @ApiTags('khach-hangs')
@@ -69,14 +70,15 @@ export class KhachHangsController {
   }
 
   //Register account to phone number
+  // @UseGuards(AccessTokenGuard)
   @Post('registerAccount')
   @ApiCreatedResponse({ type: KhachHangEntity })
-  registerAccount(@Body() registerAccountDto: RegisterAccountDto) {
-    return this.KhachHangs.registerAccount(registerAccountDto);
+  registerAccount(@Body() createKhachHangDto: CreateKhachHangDto) {
+    return this.KhachHangs.registerAccount(createKhachHangDto);
   }
 
   //Update Toa Do
-
+  // @UseGuards(AccessTokenGuard)
   @Patch('updateToaDo')
   @ApiCreatedResponse({ type: KhachHangEntity })
   updateToaDo(@Body() updateToaDoDto: UpdateToaDoDto) {
@@ -111,6 +113,7 @@ export class KhachHangsController {
     //return this.Prisma.findOne(+id);
   }
 
+  // @UseGuards(AccessTokenGuard)
   @Patch(':id')
   @ApiCreatedResponse({ type: KhachHangEntity })
   update(
@@ -120,6 +123,7 @@ export class KhachHangsController {
     return this.KhachHangs.update(id, updateKhachHangDto);
   }
 
+  // @UseGuards(AccessTokenGuard)
   @Delete(':id')
   @ApiCreatedResponse({ type: KhachHangEntity })
   async remove(@Param('id') id: string) {

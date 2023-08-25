@@ -26,4 +26,9 @@ export class CreateTaiXeDto {
   @IsString()
   @ApiProperty({ required: false })
   trangThai?: string;
+
+  //add refresh token
+  @IsString()
+  @ApiProperty({})
+  refreshToken: string;
 }

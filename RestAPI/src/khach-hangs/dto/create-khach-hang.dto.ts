@@ -31,4 +31,10 @@ export class CreateKhachHangDto {
   @IsOptional()
   @ApiProperty({ required: false })
   isVIP?: boolean = false;
+
+
+  //add refresh token
+  @IsString()
+  @ApiProperty({})
+  refreshToken: string;
 }

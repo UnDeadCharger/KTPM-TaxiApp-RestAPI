@@ -60,13 +60,13 @@ export class TaiXeController {
     return this.taiXeService.update(id, updateTaiXeDto);
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string) {
-    const RemoveTaiXe = await this.XeService.removeByTaiXe(
-      await this.taiXeService.findOne(id),
-    );
-    await this.taiXeService.remove(id);
+  // @Delete(':id')
+  // async remove(@Param('id') id: string) {
+  //   const RemoveTaiXe = await this.XeService.removeByTaiXe(
+  //     await this.taiXeService.findOne(id),
+  //   );
+  //   await this.taiXeService.remove(id);
 
-    return RemoveTaiXe;
-  }
+  //   return RemoveTaiXe;
+  // }
 }
