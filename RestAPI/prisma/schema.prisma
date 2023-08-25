@@ -19,7 +19,22 @@ model KhachHang {
   isRegistered   Boolean    @default(false)
   isVIP          Boolean    @default(false)
   //relation ship
+  refreshToken   String
   takenChuyenXes ChuyenXe[] @relation("KhachHangChuyenXe")
+
+  @@index([soDienThoai])
+}
+
+model TaiXe {
+  idTaiXe         String     @id @default(uuid())
+  hoTen           String
+  soDienThoai     String     @unique
+  Xe              Xe         @relation(fields: [idXe], references: [idXe])
+  idXe            String     @unique
+  toaDoGPS        String?
+  trangThai       String?
+  refreshToken    String
+  drivenChuyenXes ChuyenXe[] @relation("TaiXeChuyenXe")
 
   @@index([soDienThoai])
 }
@@ -35,19 +50,6 @@ model ChuyenXe {
   diemTra     String
   giaTien     Float?
   gioHen      DateTime?
-}
-
-model TaiXe {
-  idTaiXe         String     @id @default(uuid())
-  hoTen           String
-  soDienThoai     String     @unique
-  Xe              Xe         @relation(fields: [idXe], references: [idXe])
-  idXe            String     @unique
-  toaDoGPS        String?
-  trangThai       String?
-  drivenChuyenXes ChuyenXe[] @relation("TaiXeChuyenXe")
-
-  @@index([soDienThoai])
 }
 
 model Xe {

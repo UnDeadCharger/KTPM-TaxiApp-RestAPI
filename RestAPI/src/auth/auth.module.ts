@@ -5,9 +5,13 @@ import { KhachHangsModule } from 'src/khach-hangs/khach-hangs.module';
 import { TaiXeModule } from 'src/tai-xe/tai-xe.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
+import { AccessTokenStrategy } from './strategies/accessToken.strategy';
+import { RefreshTokenStrategy } from './strategies/refreshToken.strategy';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule,
     KhachHangsModule,
     TaiXeModule,
     JwtModule.register({
@@ -17,7 +21,7 @@ import { jwtConstants } from './constants';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

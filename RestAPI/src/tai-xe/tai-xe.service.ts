@@ -37,9 +37,16 @@ export class TaiXeService {
   }
 
   updateToaDo(sdt: string, updateToaDoDto: UpdateToaDoDto){
-    return this.prisma.khachHang.update({
+    return this.prisma.taiXe.update({
       where:{soDienThoai:sdt},
       data: updateToaDoDto,
+    });
+  }
+
+  updateBySDT(soDienThoai: string, updateTaiXeDto: UpdateTaiXeDto) {
+    return this.prisma.taiXe.update({
+      where: { soDienThoai: soDienThoai },
+      data: updateTaiXeDto,
     });
   }
 

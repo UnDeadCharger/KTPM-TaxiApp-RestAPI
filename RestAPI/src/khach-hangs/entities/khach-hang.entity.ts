@@ -16,4 +16,6 @@ export class KhachHangEntity implements KhachHang {
   isRegistered: boolean;
   @ApiProperty()
   isVIP: boolean;
+  @ApiProperty()
+  refreshToken: string;
 }
