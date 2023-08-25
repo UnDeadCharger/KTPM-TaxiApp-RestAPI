@@ -39,8 +39,8 @@ export class XeService {
     return this.prisma.xe.delete({ where: { idXe: id } });
   }
 
-  removeByTaiXe(idTXe: TaiXe){
-    return this.prisma.xe.deleteMany({where:{ownerTX: idTXe}})
-  }
+  // removeByTaiXe(idTXe: TaiXe){
+  //   return this.prisma.xe.deleteMany({where:{ownerTX: idTXe}})
+  // }
 
 }
