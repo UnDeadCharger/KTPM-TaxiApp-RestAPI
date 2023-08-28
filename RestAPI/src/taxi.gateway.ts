@@ -84,9 +84,18 @@ export class DriverGateway {
   }
 
   //resend
+  //tripInfo {
+  //  chuyenXeDto: CreateChuyenXeDto;
+  //  searchRadius: number;}
   @SubscribeMessage('resendRequest')
-  broadcastToDrivers(@MessageBody() tripInfo: CreateChuyenXeDto): void {
-    //allow access to the client
-    this.server.emit('availableCustomer', tripInfo); //payload is the ChuyenXe
+  broadcastToDrivers(@MessageBody() tripInfo: any): void {
+    //Increase search radius
+    let { searchRadius } = tripInfo.searchRadius;
+    searchRadius = searchRadius + 2;
+    if (searchRadius < 6) {
+      tripInfo.searchRadius = searchRadius;
+      this.server.emit('availableCustomer', tripInfo); //payload is the ChuyenXe
+    }
+    //Reject
   }
 }

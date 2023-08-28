@@ -54,8 +54,11 @@ export class ChuyenXeController {
     };
     //Create a Temp ChuyenXe
     const tempChuyenXe = await this.chuyenXeService.create(createChuyenXeDto);
+    //Assign a search radius:
+    const broadcastCXWithSearchRadius = { tempChuyenXe, searchRadius: 0 };
+
     //Broadcast CX
-    this.DriverGateway.broadcastToDrivers(tempChuyenXe);
+    this.DriverGateway.broadcastToDrivers(broadcastCXWithSearchRadius);
     //Wait for confirmation
 
     return tempChuyenXe;
