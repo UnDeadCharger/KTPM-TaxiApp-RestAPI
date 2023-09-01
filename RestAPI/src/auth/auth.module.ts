@@ -8,6 +8,7 @@ import { jwtConstants } from './constants';
 import { AccessTokenStrategy } from './strategies/accessToken.strategy';
 import { RefreshTokenStrategy } from './strategies/refreshToken.strategy';
 import { ConfigModule } from '@nestjs/config';
+import { Jwt2faStrategy } from './strategies/jwt-2fa.strategy';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy],
+  providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy, Jwt2faStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

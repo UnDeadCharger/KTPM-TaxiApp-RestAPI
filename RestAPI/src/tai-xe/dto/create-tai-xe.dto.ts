@@ -31,4 +31,8 @@ export class CreateTaiXeDto {
   @IsString()
   @ApiProperty({})
   refreshToken: string;
+
+  @IsString()
+  @ApiProperty({})
+  twoFactorAuthenticationSecret: string;
 }

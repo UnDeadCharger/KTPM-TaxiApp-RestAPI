@@ -7,6 +7,7 @@ import {
   Post,
   Req,
   Request,
+  UnauthorizedException,
   UseFilters,
   UseGuards,
 } from '@nestjs/common';
@@ -19,6 +20,7 @@ import { TaiXeService } from 'src/tai-xe/tai-xe.service';
 import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
+import { Jwt2faAuthGuard } from 'src/common/guards/jwt-2fa-auth.guard';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -81,5 +83,34 @@ export class AuthController {
     const userId = req.user['sub'];
     const refreshToken = req.user['refreshToken'];
     return this.authService.refreshTokens(userId, refreshToken);
+  }
+
+  @Post('2fa/authenticateKhachHang')
+  @HttpCode(200)
+  @ApiBearerAuth('jwt')
+  @UseGuards(Jwt2faAuthGuard)
+  async authenticate(@Request() request, @Body() body) {
+    console.log(request.user)
+    const soDienThoai = request.user.sub;
+    const isCodeValid = this.authService.isTwoFactorAuthenticationCodeValid(
+      body.twoFactorAuthenticationCode,
+      soDienThoai,
+    );
+
+    if (!isCodeValid) {
+      throw new UnauthorizedException('Wrong authentication code');
+    }
+
+    return this.authService.signInKhachHangWith2fa(soDienThoai);
+  }
+
+  @Post('2fa/generateKhachHang')
+  @HttpCode(200)
+  @ApiBearerAuth('jwt')
+  @UseGuards(Jwt2faAuthGuard)
+  async generate(@Request() request, @Body() body){
+    console.log(request.user);
+    const soDienThoai = request.user['sub'];
+    return this.authService.generateTwoFactorAuthenticationSecret(soDienThoai);
   }
 }

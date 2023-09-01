@@ -13,6 +13,7 @@ async function main() {
       isRegistered: true,
       isVIP: true,
       refreshToken: '',
+      twoFactorAuthenticationSecret: '',
     },
   });
 
@@ -33,6 +34,7 @@ async function main() {
       idXe: '1',
       toaDoGPS: '50 50',
       refreshToken: '',
+      twoFactorAuthenticationSecret: '',
     },
   });
 
@@ -66,6 +68,7 @@ async function main() {
       idXe: 'dummy-400-vehicle',
       toaDoGPS: '50/50',
       refreshToken: '',
+      twoFactorAuthenticationSecret: '',
     },
   });
 }

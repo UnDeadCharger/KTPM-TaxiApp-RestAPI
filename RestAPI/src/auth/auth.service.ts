@@ -3,6 +3,8 @@ import { KhachHangsService } from 'src/khach-hangs/khach-hangs.service';
 import { TaiXeService } from 'src/tai-xe/tai-xe.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { authenticator } from 'otplib';
+import { toDataURL } from 'qrcode';
 import * as argon2 from 'argon2';
 
 @Injectable()
@@ -16,38 +18,31 @@ export class AuthService {
 
   async signInKhachHang(soDienThoai: string) {
     const user = await this.khachHangsService.findOneByPhoneNum(soDienThoai);
-    /*if (user?.password !== pass) {
-      throw new UnauthorizedException();
-    }*/
-    //const { password, ...result } = user;
-    // TODO: Generate a JWT and return it here
-    // instead of the user object
-    //return result;
-    // const payload = { sub: user.soDienThoai };
-    // return {
-    //   access_token: await this.jwtService.signAsync(payload),
-    // };
     if (!user) throw new BadRequestException('User does not exist');
     const tokens = await this.getTokens(user.soDienThoai);
     await this.updateRefreshToken(user.soDienThoai, tokens.refreshToken);
     return tokens;
   }
 
+  async signInKhachHangWith2fa(soDienThoai: string){
+    const user = await this.khachHangsService.findOneByPhoneNum(soDienThoai);
+    const payload = {
+      soDienThoai: user.soDienThoai,
+      isTwoFactorAuthenticationEnabled: true,
+      isTwoFactorAuthenticated: true,
+    };
+    
+    const token = this.signInKhachHang(payload.soDienThoai)
+
+    return {
+      soDienThoai: payload.soDienThoai,
+      access_token: (await token).accessToken
+      // access_token: this.jwtService.sign(payload),
+    };
+  }
+
   async signInTaiXe(soDienThoai: string) {
     const user = await this.taiXesService.findOneByPhoneNum(soDienThoai);
-    /*if (user?.password !== pass) {
-      throw new UnauthorizedException();
-    }*/
-    //const { password, ...result } = user;
-    // TODO: Generate a JWT and return it here
-    // instead of the user object
-    //return result;
-
-    
-    // const payload = { sub: user.soDienThoai };
-    // return {
-    //   access_token: await this.jwtService.signAsync(payload),
-    // };
     if (!user) throw new BadRequestException('User does not exist');
     const tokens = await this.getTokens(user.soDienThoai);
     await this.updateRefreshToken(user.soDienThoai, tokens.refreshToken);
@@ -117,5 +112,32 @@ export class AuthService {
       accessToken,
       refreshToken,
     };
+  }
+  
+  async generateTwoFactorAuthenticationSecret(soDienThoai: string) {
+    const user = await this.khachHangsService.findOneByPhoneNum(soDienThoai)
+    
+    const secret = authenticator.generateSecret();
+
+    const otpauthUrl = authenticator.keyuri(user.soDienThoai, 'TRIP_MAKER', secret);
+
+    await this.khachHangsService.setTwoFactorAuthenticationSecret(secret, user.soDienThoai);
+
+    return {
+      secret,
+      otpauthUrl
+    }
+  }
+
+  async generateQrCodeDataURL(otpAuthUrl: string) {
+    return toDataURL(otpAuthUrl);
+  }
+
+  async isTwoFactorAuthenticationCodeValid(twoFactorAuthenticationCode: string, soDienThoai: string) {
+    const user = await this.khachHangsService.findOneByPhoneNum(soDienThoai)
+    return authenticator.verify({
+      token: twoFactorAuthenticationCode,
+      secret: user['twoFactorAuthenticationSecret'],
+    });
   }
 }

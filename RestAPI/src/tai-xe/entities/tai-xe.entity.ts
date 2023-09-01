@@ -16,4 +16,8 @@ export class TaiXeEntity implements TaiXe{
   toaDoGPS: string;
   @ApiProperty()
   trangThai: string;
+  @ApiProperty()
+  refreshToken: string;
+  @ApiProperty()
+  twoFactorAuthenticationSecret: string;
 }

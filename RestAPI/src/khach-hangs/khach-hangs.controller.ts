@@ -131,4 +131,6 @@ export class KhachHangsController {
     await this.KhachHangs.remove(id);
     return ChuyenXe;
   }
+
+  
 }

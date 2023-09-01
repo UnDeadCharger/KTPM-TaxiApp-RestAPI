@@ -37,4 +37,8 @@ export class CreateKhachHangDto {
   @IsString()
   @ApiProperty({})
   refreshToken: string;
+
+  @IsString()
+  @ApiProperty({})
+  twoFactorAuthenticationSecret: string;
 }

@@ -18,4 +18,6 @@ export class KhachHangEntity implements KhachHang {
   isVIP: boolean;
   @ApiProperty()
   refreshToken: string;
+  @ApiProperty()
+  twoFactorAuthenticationSecret: string;
 }

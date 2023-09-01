@@ -66,6 +66,7 @@ export class KhachHangsService {
     return this.prisma.khachHang.findUnique({ where: { idKhachHang: id } });
   }
 
+
   update(id: string, updateKhachHangDto: UpdateKhachHangDto) {
     return this.prisma.khachHang.update({
       where: { idKhachHang: id },
@@ -89,5 +90,10 @@ export class KhachHangsService {
 
   remove(id: string) {
     return this.prisma.khachHang.delete({ where: { idKhachHang: id } });
+  }
+
+  async setTwoFactorAuthenticationSecret(secret: string, soDienThoai: string) {
+    const user = await this.prisma.khachHang.findUnique({ where: { soDienThoai: soDienThoai } })
+    user['twoFactorAuthenticationSecret'] = secret;
   }
 }
