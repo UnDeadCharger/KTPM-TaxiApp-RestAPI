@@ -45,7 +45,7 @@ export class AuthService {
     const user = await this.taiXesService.findOneByPhoneNum(soDienThoai);
     if (!user) throw new BadRequestException('User does not exist');
     const tokens = await this.getTokens(user.soDienThoai);
-    await this.updateRefreshToken(user.soDienThoai, tokens.refreshToken);
+    await this.updateRefreshTokenTaiXe(user.soDienThoai, tokens.refreshToken);
     return tokens;
   }
 
@@ -79,6 +79,13 @@ export class AuthService {
   async updateRefreshToken(soDienThoai: string, refreshToken: string) {
     const hashedRefreshToken = await this.hashData(refreshToken);
     await this.khachHangsService.updateBySDT(soDienThoai, {
+      refreshToken: hashedRefreshToken,
+    });
+  }
+
+  async updateRefreshTokenTaiXe(soDienThoai: string, refreshToken: string) {
+    const hashedRefreshToken = await this.hashData(refreshToken);
+    await this.taiXesService.updateBySDT(soDienThoai, {
       refreshToken: hashedRefreshToken,
     });
   }

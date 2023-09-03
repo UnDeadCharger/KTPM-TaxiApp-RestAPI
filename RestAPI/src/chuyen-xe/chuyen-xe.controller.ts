@@ -22,6 +22,7 @@ import { RabbitMQService } from 'src/rabbit-mq/rabbit-mq.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { RequestChuyenXeDto } from './dto/request-chuyen-xe.dto';
 import { DriverGateway } from 'src/taxi.gateway';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 // import JwtAuthenticationGuard from '../authentication/jwt-authentication.guard';
 
 @Controller('chuyen-xe')
@@ -35,7 +36,7 @@ export class ChuyenXeController {
   ) {}
 
   //Điều phối
-  @UseGuards(AuthGuard)
+  @UseGuards(AccessTokenGuard)
   @Post('RequestChuyenXe')
   @ApiBearerAuth('jwt')
   async requestChuyenXe(
@@ -51,11 +52,11 @@ export class ChuyenXeController {
       diemDon: requestChuyenXeDto.diemDon,
       diemTra: requestChuyenXeDto.diemTra,
       giaTien: requestChuyenXeDto.giaTien,
-    };
+    }
     //Create a Temp ChuyenXe
     const tempChuyenXe = await this.chuyenXeService.create(createChuyenXeDto);
     //Assign a search radius:
-    const broadcastCXWithSearchRadius = { tempChuyenXe, searchRadius: 0 };
+    const broadcastCXWithSearchRadius = { tempChuyenXe, searchRadius: 2 };
 
     //Broadcast CX
     this.DriverGateway.broadcastToDrivers(broadcastCXWithSearchRadius);

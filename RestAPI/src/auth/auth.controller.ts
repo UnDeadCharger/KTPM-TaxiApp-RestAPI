@@ -53,7 +53,6 @@ export class AuthController {
   @Get('profileKhachHang')
   @ApiBearerAuth('jwt')
   getProfileKH(@Request() req) {
-    console.log(req);
     return this.khachHangService.findOneByPhoneNum(req.user.sub);
   }
 
