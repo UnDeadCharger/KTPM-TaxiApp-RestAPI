@@ -48,7 +48,7 @@ export class ChuyenXeController {
       idChuyenXe: undefined,
       idTaiXe: 'dummy-404860297',
       idKhachHang: requestChuyenXeDto.idKhachHang,
-      trangThai: 'Đang chờ',
+      trangThai: 'Đang Chờ',
       diemDon: requestChuyenXeDto.diemDon,
       diemTra: requestChuyenXeDto.diemTra,
       giaTien: requestChuyenXeDto.giaTien,
@@ -85,9 +85,57 @@ export class ChuyenXeController {
       }
     });
 
-    await Promise.all(pendingOperations);
+    return    await Promise.all(pendingOperations);
 
-    return 'Creation Order sent to the queue!';
+  }
+
+  @Get(`/ccGetChuyenXeDangCho`)
+  async getWaitingRide() {
+    const pendingOperations = Array.from(new Array(1)).map(async (_, index) => {
+      const message = "";
+      try {
+        // Send the message and await acknowledgment
+        const ackStatus = await this.rabbitmqService.sendTT(
+          'get-waiting-ride',
+          message,
+        );
+        // ackStatus.subscribe();
+        console.log(`Message "get-waiting-ride" ack status`,ackStatus);
+        console.log({list:ackStatus})
+        return {list:ackStatus};
+      } catch (error) {
+        console.error(`Error sending message "get-waiting-ride":`, error);
+        return null;
+      }
+    });
+
+    const result= await Promise.all(pendingOperations);
+    console.log(result[0])
+    return result[0]
+  }
+
+  @Get(`/ccGetChuyenXeDangChay`)
+  async getOnGoingRide() {
+    const pendingOperations = Array.from(new Array(1)).map(async (_, index) => {
+      const message = "";
+      try {
+        // Send the message and await acknowledgment
+        const ackStatus = await this.rabbitmqService.sendTT(
+          'get-on-going-ride',
+          message,
+        );
+        // ackStatus.subscribe();
+        console.log(`Message "get-on-going-ride" ack status: ${ackStatus}`);
+        return {list:ackStatus};
+      } catch (error) {
+        console.error(`Error sending message "get-on-going-ride":`, error);
+        return null;
+      }
+    });
+
+    const result= await Promise.all(pendingOperations);
+    console.log(result[0])
+    return result[0]
   }
 
   @Post('/create')

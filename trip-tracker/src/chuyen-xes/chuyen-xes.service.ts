@@ -33,9 +33,25 @@ export class ChuyenXesService {
     return this.prisma.chuyenXe.findMany({
       where:{
         NOT:[{
-          trangThai:"HoanThanh"
+          trangThai:"Đã Hoàn Thành"
         }]
       }
     })    
+  }
+
+  getWaitingRide(){
+    return this.prisma.chuyenXe.findMany({
+      where:{
+        trangThai:"Đang Chờ"
+      }
+    });
+  }
+
+  getOnGoingRide(){
+    return this.prisma.chuyenXe.findMany({
+      where:{
+        trangThai:"Đang Diễn Ra"
+      }
+    });
   }
 }

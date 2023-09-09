@@ -39,7 +39,51 @@ export class ChuyenXesController {
       // Handle any errors that occurred during processing
       console.error('Error Creating new trip, with message:', error.message);
       // It's a good practice to nack (negative acknowledgment) the message in case of an error
-      channel.ack(originalMessage);
+      channel.nack(originalMessage);
+      return null;
+    }
+  }
+
+  @MessagePattern('get-waiting-ride')
+  public async executeGetWaitingRide(
+    @Payload() data: any,
+    @Ctx() context: RmqContext,
+  ) {
+    const channel = context.getChannelRef();
+    const originalMessage = context.getMessage();
+    // console.log('Data:', data);
+    try {
+      const result = await this.chuyenXesService.getWaitingRide();
+      console.log('Done Get Waiting ChuyenXe:', result);
+      channel.ack(originalMessage); // Acknowledge after successful processing
+      return result;
+    } catch (error) {
+      // Handle any errors that occurred during processing
+      console.error('Error Getting waiting ride, with message:', error.message);
+      // It's a good practice to nack (negative acknowledgment) the message in case of an error
+      channel.nack(originalMessage);
+      return null;
+    }
+  }
+
+  @MessagePattern('get-on-going-ride')
+  public async executeGetOnGoingRide(
+    @Payload() data: any,
+    @Ctx() context: RmqContext,
+  ) {
+    const channel = context.getChannelRef();
+    const originalMessage = context.getMessage();
+    // console.log('Data:', data);
+    try {
+      const result = await this.chuyenXesService.getOnGoingRide();
+      console.log('Done Get on Going ChuyenXe:', result);
+      channel.ack(originalMessage); // Acknowledge after successful processing
+      return result;
+    } catch (error) {
+      // Handle any errors that occurred during processing
+      console.error('Error Getting on going ride, with message:', error.message);
+      // It's a good practice to nack (negative acknowledgment) the message in case of an error
+      channel.nack(originalMessage);
       return null;
     }
   }
