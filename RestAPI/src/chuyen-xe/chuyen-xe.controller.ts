@@ -135,7 +135,6 @@ export class ChuyenXeController {
         );
         // ackStatus.subscribe();
         console.log(`Message "get-waiting-ride" ack status`,ackStatus);
-        console.log({list:ackStatus})
         return {list:ackStatus};
       } catch (error) {
         console.error(`Error sending message "get-waiting-ride":`, error);
@@ -144,7 +143,6 @@ export class ChuyenXeController {
     });
 
     const result= await Promise.all(pendingOperations);
-    console.log(result[0])
     return result[0]
   }
 
@@ -168,7 +166,6 @@ export class ChuyenXeController {
     });
 
     const result= await Promise.all(pendingOperations);
-    console.log(result[0])
     return result[0]
   }
 

@@ -54,7 +54,7 @@ export class ChuyenXesController {
     // console.log('Data:', data);
     try {
       const result = await this.chuyenXesService.getWaitingRide();
-      console.log('Done Get Waiting ChuyenXe:', result);
+      //console.log('Done Get Waiting ChuyenXe:', result);
       channel.ack(originalMessage); // Acknowledge after successful processing
       return result;
     } catch (error) {
@@ -76,7 +76,7 @@ export class ChuyenXesController {
     // console.log('Data:', data);
     try {
       const result = await this.chuyenXesService.getOnGoingRide();
-      console.log('Done Get on Going ChuyenXe:', result);
+      //console.log('Done Get on Going ChuyenXe:', result);
       channel.ack(originalMessage); // Acknowledge after successful processing
       return result;
     } catch (error) {
