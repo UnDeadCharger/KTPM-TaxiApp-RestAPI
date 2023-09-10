@@ -23,6 +23,8 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { RequestChuyenXeDto } from './dto/request-chuyen-xe.dto';
 import { DriverGateway } from 'src/taxi.gateway';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { KhachHangsService } from 'src/khach-hangs/khach-hangs.service';
+import { checkKhachHangDTO } from './dto/check-KH.dto';
 // import JwtAuthenticationGuard from '../authentication/jwt-authentication.guard';
 
 @Controller('chuyen-xe')
@@ -33,6 +35,7 @@ export class ChuyenXeController {
     private readonly chuyenXeService: ChuyenXeService,
     private readonly rabbitmqService: RabbitMQService,
     private readonly DriverGateway: DriverGateway,
+    private readonly khachHangService: KhachHangsService,
   ) {}
 
   //Điều phối
@@ -67,9 +70,38 @@ export class ChuyenXeController {
 
   //rabbitmq
   @Post(`/ccAddChuyenXe`)
-  async createCC(@Body() createChuyenXeDto: CreateChuyenXeDto) {
+  async createCC(@Body() checkKH: checkKhachHangDTO) {
     const pendingOperations = Array.from(new Array(1)).map(async (_, index) => {
-      const message = createChuyenXeDto;
+      const checkKHData = checkKH;
+      const checkResult= await this.khachHangService.checkRegistered(checkKHData.soDienThoai)
+      let user=null
+      if(checkResult.status==0){
+        user = await this.khachHangService.create({
+          soDienThoai: checkKHData.soDienThoai,
+          hoTen: checkKHData.hoTen,
+          diaChi: '',
+          toaDoGPS: '',
+          isRegistered: false,
+          isVIP: false,
+          refreshToken: '',
+          twoFactorAuthenticationSecret: '',
+        })
+      }
+      else {
+        user=await this.khachHangService.findOneByPhoneNum(checkKHData.soDienThoai)
+      }
+
+      const message: CreateChuyenXeDto = {
+        idChuyenXe:undefined,
+        idKhachHang:user.idKhachHang,
+        idTaiXe:'1',
+        trangThai: 'Đang Chờ',
+        diemDon: checkKHData.diemDon,
+        diemTra: checkKHData.diemTra,
+        giaTien: 16000,
+        gioHen: null,
+      }
+
       try {
         // Send the message and await acknowledgment
         const ackStatus = await this.rabbitmqService.sendTT(
@@ -78,14 +110,16 @@ export class ChuyenXeController {
         );
         // ackStatus.subscribe();
         console.log(`Message "${message}" ack status: ${ackStatus}`);
+        const broadcastCXWithSearchRadius = { ackStatus, searchRadius: 2 };
+        //Broadcast CX
+        this.DriverGateway.broadcastToDrivers(broadcastCXWithSearchRadius);
         return ackStatus;
       } catch (error) {
         console.error(`Error sending message "${message}":`, error);
         return null;
       }
     });
-
-    return    await Promise.all(pendingOperations);
+    return await Promise.all(pendingOperations);
 
   }
 

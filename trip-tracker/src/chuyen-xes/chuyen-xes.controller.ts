@@ -34,12 +34,12 @@ export class ChuyenXesController {
       const result = await this.chuyenXesService.create(data);
       console.log('Done Adding ChuyenXe:', result);
       channel.ack(originalMessage); // Acknowledge after successful processing
-      return originalMessage;
+      return result;
     } catch (error) {
       // Handle any errors that occurred during processing
       console.error('Error Creating new trip, with message:', error.message);
       // It's a good practice to nack (negative acknowledgment) the message in case of an error
-      channel.nack(originalMessage);
+      channel.ack(originalMessage);
       return null;
     }
   }
