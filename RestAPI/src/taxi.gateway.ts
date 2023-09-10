@@ -63,6 +63,12 @@ export class DriverGateway {
   ): Promise<void> {
     try {
       console.log('Trip Info: ', tripInfo);
+      const tripInDB = await this.chuyenXeService.findOne(tripInfo.idChuyenXe)
+      // If customer stop req
+      if(!tripInDB) {
+        this.server.to(socket.id).emit('acceptingCustomer', { status: 'error', message: 'Khách hàng đã hủy yêu cầu chuyến xe.' })
+        return;
+      }
       const realTrip = await this.chuyenXeService.update(
         tripInfo.idChuyenXe,
         tripInfo,
@@ -89,7 +95,7 @@ export class DriverGateway {
       // Handle the error
       // Send an error response back to the client
       this.server.to(socket.id).emit('acceptingCustomer' ,
-        JSON.stringify({ status: 'error', message: 'Update failed.' }),
+        { status: 'error', message: 'Update failed.' },
       );
     }
   }
@@ -105,7 +111,6 @@ export class DriverGateway {
     console.log(searchRadius)
     if (searchRadius <= 6) {
       console.log("Available Customer: ", tripInfo)
-      tripInfo.searchRadius = searchRadius;
       this.server.emit('availableCustomer', tripInfo); //payload is the ChuyenXe
     }
   }
@@ -133,10 +138,18 @@ export class DriverGateway {
   @SubscribeMessage('DoneRide')
   async handleDoneRideMessage(socket: Socket, payload: any) : Promise<void> {
     console.log(payload)
+    // Update status for ride in DB
+    let tripInDB = await this.chuyenXeService.findOne(payload.idChuyenXe)
+    tripInDB = {
+      ...tripInDB,
+      trangThai: 'Đã Hoàn Thành'
+    }
+    const realTrip = await this.chuyenXeService.update(
+      tripInDB.idChuyenXe,
+      tripInDB,
+    );
+    console.log('Trip In DB: ', tripInDB)
     console.log("List Of Rooms: ", this.server.sockets.adapter.rooms)
-    // const clients = this.server.sockets.adapter.rooms.get(payload.idChuyenXe)
-    // all the clients will leave room & room deleted automatically as there are no more active users in it
-    // this.server.in(payload.idChuyenXe).socketsLeave(payload.idChuyenXe)
     const socketsInRoom = await this.server.in(payload.idChuyenXe).fetchSockets();
     socketsInRoom.forEach((socket: any) => {
       console.log("SOCKET ROOM: ", socket.rooms)

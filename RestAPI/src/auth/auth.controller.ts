@@ -60,7 +60,6 @@ export class AuthController {
   @Get('profileTaiXe')
   @ApiBearerAuth('jwt')
   getProfileTX(@Request() req) {
-    console.log(req);
     return this.TaiXeService.findOneByPhoneNum(req.user.sub);
   }
 

@@ -13,11 +13,10 @@ export class RequestChuyenXeDto {
   @ApiProperty()
   idKhachHang: string;
 
-  // @IsString()
-  // @IsOptional()
-  // @MaxLength(50)
-  // @ApiProperty({ required: false })
-  // trangThai?: string;
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  loaiXe: string;
 
   @IsString()
   @IsNotEmpty()
